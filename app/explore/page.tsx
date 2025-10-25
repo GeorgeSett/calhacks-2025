@@ -6,6 +6,7 @@ import { CategoryFilter } from "@/components/CategoryFilter";
 import { Input } from "@/components/ui/Input";
 import { mockCampaigns } from "@/lib/mock-data";
 import { CampaignCategory } from "@/types/campaign";
+import Header from "@/components/layout/Header";
 
 export default function ExplorePage() {
   const [filter, setFilter] = useState<CampaignCategory>("all");
@@ -23,15 +24,10 @@ export default function ExplorePage() {
 
   return (
     <div className="min-h-screen pb-24">
-      {/* Header */}
-      <section className="py-16 border-b border-border">
-        <div className="container mx-auto px-6">
-          <h1 className="text-hero mb-4">explore campaigns</h1>
-          <p className="text-subtitle text-text-dim max-w-2xl">
-            discover projects building the future on sui
-          </p>
-        </div>
-      </section>
+      <Header
+        title="explore campaigns"
+        subtitle="discover projects building the future on sui"
+      />
 
       {/* Filters & Search */}
       <section className="py-8 border-b border-border">
