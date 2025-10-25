@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -18,7 +17,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border backdrop-blur-md bg-bg/80 ">
+    <nav className="sticky top-0 z-50 border-b border-border backdrop-blur-md bg-bg/80">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
@@ -67,23 +66,25 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border bg-surface p-4">
-            <Link
-              href="/explore"
-              className="block py-3 text-text-dim"
-              style={{ fontSize: "15px" }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              explore
-            </Link>
-            <Link
-              href="/create"
-              className="block py-3 text-text-dim"
-              style={{ fontSize: "15px" }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              create
-            </Link>
+          <div className="md:hidden absolute left-0 right-0 top-[72px] border-t border-border bg-bg backdrop-blur-md shadow-lg">
+            <div className="container mx-auto px-6 py-4">
+              <Link
+                href="/explore"
+                className="block py-3 text-text-dim hover:text-text transition-colors"
+                style={{ fontSize: "15px" }}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                explore
+              </Link>
+              <Link
+                href="/create"
+                className="block py-3 text-text-dim hover:text-text transition-colors"
+                style={{ fontSize: "15px" }}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                create
+              </Link>
+            </div>
           </div>
         )}
       </div>

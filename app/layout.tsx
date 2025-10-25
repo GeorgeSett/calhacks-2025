@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import { Providers } from "./providers";
 import "@mysten/dapp-kit/dist/index.css";
 
@@ -21,6 +22,7 @@ export default function RootLayout({
           <Providers>
             <Navbar />
             <main className="grow">{children}</main>
+            <Footer />
           </Providers>
         </div>
       </body>
