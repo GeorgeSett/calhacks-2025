@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Campaign } from "@/types/campaign";
+import { truncateAddress } from "@/lib/utils";
 
 interface CampaignCardProps {
   campaign: Campaign;
@@ -66,7 +67,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
           {/* Creator */}
           <div className="mt-4 pt-4 border-t border-border flex items-center gap-2">
             <div className="w-6 h-6 rounded-full gradient-purple" />
-            <span className="text-xs text-text-dim">{campaign.creator.slice(0, 6)}...{campaign.creator.slice(-4)}</span>
+            <span className="text-xs text-text-dim">{truncateAddress(campaign.creator)}</span>
           </div>
         </div>
       </div>

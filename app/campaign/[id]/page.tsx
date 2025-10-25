@@ -1,9 +1,11 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { mockCampaigns } from "@/lib/mock-data";
+import { Campaign } from "@/types/campaign";
+import { getCampaign } from "@/lib/sui/rpc";
+import { truncateAddress } from "@/lib/utils";
 
 export default function CampaignPage() {
   const params = useParams();
@@ -11,9 +13,12 @@ export default function CampaignPage() {
 
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState("");
+  const [campaign, setCampaign] = useState<Campaign | null | undefined>();
 
-  const campaign = useMemo(() => {
-    return mockCampaigns.find((c) => c.id === parseInt(campaignId));
+  useEffect(() => {
+    getCampaign(campaignId).then(res => {
+      setCampaign(res);
+    });
   }, [campaignId]);
 
   // Generate stable random data for recent backers
@@ -33,7 +38,17 @@ export default function CampaignPage() {
     }));
   }, []);
 
-  if (!campaign) {
+  if (campaign === undefined) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-title mb-4">Loading...</h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (campaign === null) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -96,7 +111,7 @@ export default function CampaignPage() {
                 <div className="w-12 h-12 rounded-full gradient-purple" />
                 <div>
                   <p className="text-sm text-text-dim">Created by</p>
-                  <p className="font-semibold">{campaign.creator}</p>
+                  <p className="font-semibold">{truncateAddress(campaign.creator)}</p>
                 </div>
               </div>
             </div>
@@ -207,9 +222,11 @@ export default function CampaignPage() {
               <h2 className="text-2xl font-semibold mb-4">
                 About this project
               </h2>
-              <p className="text-body leading-relaxed mb-4">
-                {campaign.description}
-              </p>
+              {campaign.description.split('\n').filter(s => s.length > 0).map((s, i) => (
+                <p key={i} className="text-body leading-relaxed mb-4">
+                  {s}
+                </p>
+              ))}
               <p className="text-body leading-relaxed mb-4">
                 This is a revolutionary project building on the Sui blockchain.
                 We are committed to transparency and will provide regular
@@ -242,7 +259,7 @@ export default function CampaignPage() {
                       </div>
                     </div>
                     <div className="font-semibold gradient-text-blue">
-                      ${backer.amount}
+                      {backer.amount} SUI
                     </div>
                   </div>
                 ))}
@@ -258,11 +275,11 @@ export default function CampaignPage() {
                 <div className="mb-6">
                   <div className="flex justify-between items-baseline mb-2">
                     <span className="text-stat-md gradient-text-blue">
-                      ${campaign.raised.toLocaleString()}
+                      {campaign.raised.toLocaleString()} SUI
                     </span>
                   </div>
                   <p className="text-text-dim mb-4">
-                    of ${campaign.goal.toLocaleString()} goal
+                    of {campaign.goal.toLocaleString()} SUI goal
                   </p>
                   <div className="w-full h-3 bg-bg rounded-full overflow-hidden mb-6">
                     <div
@@ -305,7 +322,7 @@ export default function CampaignPage() {
                             : "bg-bg hover:bg-surface border border-border"
                         }`}
                       >
-                        ${amount}
+                        {amount} SUI
                       </button>
                     ))}
                   </div>
@@ -316,9 +333,6 @@ export default function CampaignPage() {
                       Or enter custom amount
                     </label>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim">
-                        $
-                      </span>
                       <input
                         type="number"
                         value={customAmount}
@@ -327,8 +341,11 @@ export default function CampaignPage() {
                           setSelectedAmount(null);
                         }}
                         placeholder="0.00"
-                        className="w-full pl-7 pr-4 py-3 bg-bg border border-border rounded-lg focus:outline-none focus:border-accent"
+                        className="w-full pl-4 pr-10 py-3 bg-bg border border-border rounded-lg focus:outline-none focus:border-accent"
                       />
+                      <span className="absolute right-4 top-1/2 -translate-y-1/2 text-text-dim">
+                        SUI
+                      </span>
                     </div>
                   </div>
 
