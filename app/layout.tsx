@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
+import { Providers } from "./providers";
+import "@mysten/dapp-kit/dist/index.css";
 
 export const metadata: Metadata = {
   title: "SUI Crowdfund - Blockchain Crowdfunding Platform",
@@ -16,8 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <main className="grow">{children}</main>
+          <Providers>
+            <Navbar />
+            <main className="grow">{children}</main>
+          </Providers>
         </div>
       </body>
     </html>

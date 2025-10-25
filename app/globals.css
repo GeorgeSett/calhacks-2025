@@ -67,6 +67,7 @@ body {
   transition: all 0.2s;
   display: inline-block;
   border: none;
+  text-transform: lowercase;
 }
 
 .btn-primary {

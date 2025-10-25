@@ -2,13 +2,23 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import {
+  ConnectButton,
+  useCurrentAccount,
+  useDisconnectWallet
+} from "@mysten/dapp-kit";
 
 export default function Navbar() {
-  const [isConnected, setIsConnected] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const currentAccount = useCurrentAccount();
+  const { mutate: disconnect } = useDisconnectWallet();
+
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-border backdrop-blur-md bg-bg/80">
+    <nav className="sticky top-0 z-50 border-b border-border backdrop-blur-md bg-bg/80 ">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
@@ -36,12 +46,14 @@ export default function Navbar() {
               </Link>
             </div>
 
-            <button
-              onClick={() => setIsConnected(!isConnected)}
-              className={isConnected ? "btn btn-ghost" : "btn btn-primary"}
-            >
-              {isConnected ? "0x1234...5678" : "connect wallet"}
-            </button>
+            {/* Wallet Connection */}
+            {currentAccount ? (
+              <button onClick={() => disconnect()} className="btn btn-ghost">
+                {formatAddress(currentAccount.address)}
+              </button>
+            ) : (
+              <ConnectButton className="btn btn-primary" />
+            )}
 
             {/* Mobile menu button */}
             <button
