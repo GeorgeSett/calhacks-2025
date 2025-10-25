@@ -58,7 +58,7 @@ export default function Home() {
       {/* Why section */}
       <section className="py-24">
         <div className="container mx-auto px-6">
-          <h2 className="text-title mb-16">why this exists</h2>
+          <h2 className="text-title mb-16">why we exist</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-16">
             <div>
               <h3 className="text-xl font-semibold mb-3">
