@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Campaign } from "@/types/campaign";
 import { getCampaign } from "@/lib/sui/rpc";
 import { truncateAddress } from "@/lib/utils";
+import { CampaignPageSkeleton } from "@/components/CampaignPage/CampaignPageSkeleton";
 
 export default function CampaignPage() {
   const params = useParams();
@@ -16,7 +17,7 @@ export default function CampaignPage() {
   const [campaign, setCampaign] = useState<Campaign | null | undefined>();
 
   useEffect(() => {
-    getCampaign(campaignId).then(res => {
+    getCampaign(campaignId).then((res) => {
       setCampaign(res);
     });
   }, [campaignId]);
@@ -39,13 +40,7 @@ export default function CampaignPage() {
   }, []);
 
   if (campaign === undefined) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-title mb-4">Loading...</h1>
-        </div>
-      </div>
-    );
+    return <CampaignPageSkeleton />;
   }
 
   if (campaign === null) {
@@ -111,7 +106,9 @@ export default function CampaignPage() {
                 <div className="w-12 h-12 rounded-full gradient-purple" />
                 <div>
                   <p className="text-sm text-text-dim">Created by</p>
-                  <p className="font-semibold">{truncateAddress(campaign.creator)}</p>
+                  <p className="font-semibold">
+                    {truncateAddress(campaign.creator)}
+                  </p>
                 </div>
               </div>
             </div>
@@ -222,11 +219,14 @@ export default function CampaignPage() {
               <h2 className="text-2xl font-semibold mb-4">
                 About this project
               </h2>
-              {campaign.description.split('\n').filter(s => s.length > 0).map((s, i) => (
-                <p key={i} className="text-body leading-relaxed mb-4">
-                  {s}
-                </p>
-              ))}
+              {campaign.description
+                .split("\n")
+                .filter((s) => s.length > 0)
+                .map((s, i) => (
+                  <p key={i} className="text-body leading-relaxed mb-4">
+                    {s}
+                  </p>
+                ))}
               <p className="text-body leading-relaxed mb-4">
                 This is a revolutionary project building on the Sui blockchain.
                 We are committed to transparency and will provide regular

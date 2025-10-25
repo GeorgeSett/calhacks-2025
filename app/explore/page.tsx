@@ -1,7 +1,7 @@
 "use client";
-
 import { useState, useMemo, useEffect } from "react";
 import { CampaignCard } from "@/components/ExplorePage/CampaignCard";
+import { CampaignCardSkeleton } from "@/components/ExplorePage/CampaignCardSkeleton";
 import { CategoryFilter } from "@/components/ExplorePage/CategoryFilter";
 import { Input } from "@/components/ui/Input";
 import Header from "@/components/layout/Header";
@@ -14,7 +14,7 @@ export default function ExplorePage() {
   const [allCampaigns, setAllCampaigns] = useState<Campaign[] | null>(null);
 
   useEffect(() => {
-    getAllCampaigns().then(res => setAllCampaigns(res));
+    getAllCampaigns().then((res) => setAllCampaigns(res));
   }, []);
 
   const filteredCampaigns = useMemo(() => {
@@ -58,11 +58,13 @@ export default function ExplorePage() {
       {/* Campaign Grid */}
       <section className="py-12">
         <div className="container mx-auto px-6">
-          {allCampaigns === null ?
-            <div className="text-center py-24">
-              <p className="text-text-dim text-lg">loading</p>
+          {allCampaigns === null ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <CampaignCardSkeleton key={i} />
+              ))}
             </div>
-            : filteredCampaigns.length === 0 ? (
+          ) : filteredCampaigns.length === 0 ? (
             <div className="text-center py-24">
               <p className="text-text-dim text-lg">no campaigns found</p>
             </div>
