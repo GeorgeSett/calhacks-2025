@@ -125,7 +125,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 67,
     daysLeft: 67,
     category: "creators",
-    image: "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?w=800&q=80"
+    image: "https://drive.google.com/uc?export=view&id=1rLolcI9dB3gmXiYN6-1eGAi55m1GiuTH"
   },
   {
     id: '11',
