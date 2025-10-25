@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
 import { Spotlight } from "@/components/ui/spotlight";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
 
 export default function Home() {
   return (
@@ -40,15 +41,25 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
-              <div className="text-stat-lg gradient-text-purple mb-1">$0</div>
+              <AnimatedCounter
+                end={250000}
+                prefix=""
+                className="text-stat-lg gradient-text-purple mb-1"
+              />
               <div className="text-sm text-text-dim">raised all time</div>
             </div>
             <div className="text-center">
-              <div className="text-stat-lg gradient-text-blue mb-1">0</div>
+              <AnimatedCounter
+                end={36}
+                className="text-stat-lg gradient-text-blue mb-1"
+              />
               <div className="text-sm text-text-dim">active campaigns</div>
             </div>
             <div className="text-center">
-              <div className="text-stat-lg gradient-text-green mb-1">0</div>
+              <AnimatedCounter
+                end={1337}
+                className="text-stat-lg gradient-text-green mb-1"
+              />
               <div className="text-sm text-text-dim">total backers</div>
             </div>
           </div>
