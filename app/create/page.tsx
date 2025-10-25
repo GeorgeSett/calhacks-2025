@@ -1,6 +1,6 @@
 "use client";
-
 import { useState } from "react";
+import { useCurrentAccount, ConnectButton } from "@mysten/dapp-kit";
 import { CampaignCard } from "@/components/ExplorePage/CampaignCard";
 import { CreateCampaignModal } from "@/components/CreatePage/CreateCampaignModal";
 import { mockCampaigns } from "@/lib/mock-data";
@@ -9,7 +9,19 @@ import { Plus } from "lucide-react";
 
 export default function CreatePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const currentAccount = useCurrentAccount();
   const userCampaigns = mockCampaigns.slice(0, 3);
+
+  if (!currentAccount) {
+    return (
+      <div className="flex items-center flex-col justify-center min-h-screen pb-[72px] overflow-hidden fixed inset-0">
+        <p className="mb-8 text-subtitle">
+          connect a wallet to create a campaign
+        </p>
+        <ConnectButton className="btn btn-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pb-24">
