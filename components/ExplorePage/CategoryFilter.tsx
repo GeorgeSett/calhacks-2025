@@ -1,8 +1,8 @@
-import { CampaignCategory, CAMPAIGN_CATEGORIES } from "@/types/campaign";
+import { CAMPAIGN_CATEGORIES } from "@/types/campaign";
 
 interface CategoryFilterProps {
-  selectedCategory: CampaignCategory;
-  onSelectCategory: (category: CampaignCategory) => void;
+  selectedCategory: string;
+  onSelectCategory: (category: string) => void;
 }
 
 export function CategoryFilter({

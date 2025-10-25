@@ -1,26 +1,34 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { CampaignCard } from "@/components/ExplorePage/CampaignCard";
 import { CategoryFilter } from "@/components/ExplorePage/CategoryFilter";
 import { Input } from "@/components/ui/Input";
-import { mockCampaigns } from "@/lib/mock-data";
-import { CampaignCategory } from "@/types/campaign";
 import Header from "@/components/layout/Header";
+import { Campaign } from "@/types/campaign";
+import { getAllCampaigns } from "@/lib/sui/rpc";
 
 export default function ExplorePage() {
-  const [filter, setFilter] = useState<CampaignCategory>("all");
+  const [filter, setFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [allCampaigns, setAllCampaigns] = useState<Campaign[] | null>(null);
+
+  useEffect(() => {
+    getAllCampaigns().then(res => setAllCampaigns(res));
+  }, []);
 
   const filteredCampaigns = useMemo(() => {
-    return mockCampaigns.filter((campaign) => {
+    if (allCampaigns === null) {
+      return [];
+    }
+    return allCampaigns.filter((campaign) => {
       const matchesFilter = filter === "all" || campaign.category === filter;
       const matchesSearch =
         campaign.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         campaign.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesFilter && matchesSearch;
     });
-  }, [filter, searchQuery]);
+  }, [allCampaigns, filter, searchQuery]);
 
   return (
     <div className="min-h-screen pb-24">
@@ -50,7 +58,11 @@ export default function ExplorePage() {
       {/* Campaign Grid */}
       <section className="py-12">
         <div className="container mx-auto px-6">
-          {filteredCampaigns.length === 0 ? (
+          {allCampaigns === null ?
+            <div className="text-center py-24">
+              <p className="text-text-dim text-lg">loading</p>
+            </div>
+            : filteredCampaigns.length === 0 ? (
             <div className="text-center py-24">
               <p className="text-text-dim text-lg">no campaigns found</p>
             </div>

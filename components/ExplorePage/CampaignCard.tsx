@@ -37,10 +37,10 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
           <div className="mb-4">
             <div className="flex justify-between text-sm mb-2">
               <span className="font-semibold gradient-text-blue">
-                ${campaign.raised.toLocaleString()}
+                {campaign.raised.toLocaleString()} SUI
               </span>
               <span className="text-text-dim">
-                of ${campaign.goal.toLocaleString()}
+                of {campaign.goal.toLocaleString()} SUI
               </span>
             </div>
             <div className="w-full h-2 bg-bg rounded-full overflow-hidden">
@@ -66,7 +66,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
           {/* Creator */}
           <div className="mt-4 pt-4 border-t border-border flex items-center gap-2">
             <div className="w-6 h-6 rounded-full gradient-purple" />
-            <span className="text-xs text-text-dim">{campaign.creator}</span>
+            <span className="text-xs text-text-dim">{campaign.creator.slice(0, 6)}...{campaign.creator.slice(-4)}</span>
           </div>
         </div>
       </div>

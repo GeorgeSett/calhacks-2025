@@ -2,7 +2,7 @@ import { Campaign } from "@/types/campaign";
 
 export const mockCampaigns: Campaign[] = [
   {
-    id: 1,
+    id: '1',
     title: "decentralized social network",
     description: "building a censorship-resistant social platform on sui",
     creator: "0x1234...5678",
@@ -15,7 +15,7 @@ export const mockCampaigns: Campaign[] = [
       "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80"
   },
   {
-    id: 2,
+    id: '2',
     title: "nft art gallery in tokyo",
     description: "physical gallery showcasing digital art from web3 artists",
     creator: "0xabcd...efgh",
@@ -28,7 +28,7 @@ export const mockCampaigns: Campaign[] = [
       "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&q=80"
   },
   {
-    id: 3,
+    id: '3',
     title: "climate data oracle",
     description: "real-time environmental data feed for smart contracts",
     creator: "0x9876...4321",
@@ -41,7 +41,7 @@ export const mockCampaigns: Campaign[] = [
       "https://images.unsplash.com/photo-1569163139394-de4798aa62b6?w=800&q=80"
   },
   {
-    id: 4,
+    id: '4',
     title: "indie game: pixel warriors",
     description: "retro-style fighting game with nft character ownership",
     creator: "0xfedc...ba98",
@@ -54,7 +54,7 @@ export const mockCampaigns: Campaign[] = [
       "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
   },
   {
-    id: 5,
+    id: '5',
     title: "sustainable fashion collective",
     description: "ethical clothing brand powered by transparent supply chain",
     creator: "0x5555...6666",
@@ -67,7 +67,7 @@ export const mockCampaigns: Campaign[] = [
       "https://images.unsplash.com/photo-1558769132-cb1aea8f9d05?w=800&q=80"
   },
   {
-    id: 6,
+    id: '6',
     title: "defi education platform",
     description: "learn blockchain development with interactive tutorials",
     creator: "0x7777...8888",

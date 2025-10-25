@@ -1,5 +1,5 @@
 export interface Campaign {
-  id: number;
+  id: string;
   title: string;
   description: string;
   creator: string;
@@ -7,19 +7,11 @@ export interface Campaign {
   goal: number;
   backers: number;
   daysLeft: number;
-  category: CampaignCategory;
+  category: string;
   image: string;
 }
 
-export type CampaignCategory =
-  | "all"
-  | "tech"
-  | "art"
-  | "gaming"
-  | "fashion"
-  | "education";
-
-export const CAMPAIGN_CATEGORIES: CampaignCategory[] = [
+export const CAMPAIGN_CATEGORIES: string[] = [
   "all",
   "tech",
   "art",
