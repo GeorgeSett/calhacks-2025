@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="py-32">
+      <section className="py-18">
         <Spotlight />
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -36,7 +36,7 @@ export default function Home() {
       </section>
 
       {/* Stats */}
-      <section className="py-16 border-t border-b border-border">
+      <section className="py-18 border-t border-b border-border">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
