@@ -1,5 +1,5 @@
 "use client";
-import { CampaignCard } from "@/components/CampaignCard";
+import { CampaignCard } from "@/components/ExplorePage/CampaignCard";
 import { mockCampaigns } from "@/lib/mock-data";
 import Header from "@/components/layout/Header";
 import { Plus } from "lucide-react";

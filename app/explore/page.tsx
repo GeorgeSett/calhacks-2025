@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { CampaignCard } from "@/components/CampaignCard";
-import { CategoryFilter } from "@/components/CategoryFilter";
+import { CampaignCard } from "@/components/ExplorePage/CampaignCard";
+import { CategoryFilter } from "@/components/ExplorePage/CategoryFilter";
 import { Input } from "@/components/ui/Input";
 import { mockCampaigns } from "@/lib/mock-data";
 import { CampaignCategory } from "@/types/campaign";
