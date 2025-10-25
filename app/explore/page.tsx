@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import { CampaignCard } from "@/components/CampaignCard";
 import { CategoryFilter } from "@/components/CategoryFilter";
-import { SearchBar } from "@/components/SearchBar";
+import { Input } from "@/components/ui/Input";
 import { mockCampaigns } from "@/lib/mock-data";
 import { CampaignCategory } from "@/types/campaign";
 
@@ -41,7 +41,12 @@ export default function ExplorePage() {
               selectedCategory={filter}
               onSelectCategory={setFilter}
             />
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            <Input
+              value={searchQuery}
+              onChange={setSearchQuery}
+              type="text"
+              placeholder="search for a campaign..."
+            />
           </div>
         </div>
       </section>
