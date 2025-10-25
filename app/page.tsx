@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
+import { Spotlight } from "@/components/ui/spotlight";
 
 export default function Home() {
   return (
     <div>
       {/* Hero */}
       <section className="py-32">
+        <Spotlight />
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left side - Text content */}
