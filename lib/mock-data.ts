@@ -38,7 +38,7 @@ export const mockCampaigns: Campaign[] = [
     daysLeft: 12,
     category: "tech",
     image:
-      "https://images.unsplash.com/photo-1569163139394-de4798aa62b6?w=800&q=80"
+      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80"
   },
   {
     id: '4',
@@ -64,7 +64,7 @@ export const mockCampaigns: Campaign[] = [
     daysLeft: 29,
     category: "fashion",
     image:
-      "https://images.unsplash.com/photo-1558769132-cb1aea8f9d05?w=800&q=80"
+      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80"
   },
   {
     id: '6',
@@ -89,7 +89,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 132,
     daysLeft: 27,
     category: "environment,community",
-    image: "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1699537318809-30d89602535b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2F0ZXIlMjB3ZWxsc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '8',
@@ -113,7 +113,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 214,
     daysLeft: 33,
     category: "gaming,tech",
-    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=800&q=80"
   },
   {
     id: '10',
@@ -137,7 +137,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 163,
     daysLeft: 12,
     category: "environment,tech",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=80"
   },
   {
     id: '12',
@@ -149,7 +149,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 307,
     daysLeft: 34,
     category: "art,community",
-    image: "https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1758762906230-1ff96b9abf9a?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE3fHx8ZW58MHx8fHx8&ixlib=rb-4.1.0&q=60&w=3000"
   },
   {
     id: '13',
@@ -173,7 +173,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 72,
     daysLeft: 27,
     category: "art,literature,tech",
-    image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1629237213606-4d894c8af292?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
   },
   {
     id: '15',
@@ -197,7 +197,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 153,
     daysLeft: 23,
     category: "education,community,tech",
-    image: "https://images.unsplash.com/photo-1465101178521-c1a9136a29d4?w=800&q=80"
+    image: "https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg?auto=compress&cs=tinysrgb&w=1600"
   },
   {
     id: '17',
@@ -223,17 +223,16 @@ export const mockCampaigns: Campaign[] = [
     category: "gaming,environment,tech",
     image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&q=80"
   },
-  {
-    id: '19',
-    title: "cryptocurrency hardware wallet for kids",
-    description: "fun, educational wallet with parental controls and gamification",
-    creator: "0x2525...2626",
-    raised: 13300,
-    goal: 32000,
-    backers: 99,
-    daysLeft: 20,
-    category: "tech,education,hardware",
-    image: "https://images.unsplash.com/photo-1517511620798-cec17d428bc0?w=800&q=80"
+  {id: '39',
+  title: "openlaw dao",
+  description: "community-driven legal contract templates verified and shared on-chain",
+  creator: "0x6565...6666",
+  raised: 15200,
+  goal: 40000,
+  backers: 102,
+  daysLeft: 27,
+  category: "governance,law,tech",
+  image: "https://plus.unsplash.com/premium_photo-1698084059560-9a53de7b816b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2011"
   },
   {
     id: '20',
@@ -245,7 +244,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 144,
     daysLeft: 26,
     category: "environment,tech",
-    image: "https://images.unsplash.com/photo-1516569428743-4c6b0b8df07d?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1507905404466-8f16d7fc96fa?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2069"
   },
   {
     id: '21',
@@ -257,7 +256,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 254,
     daysLeft: 32,
     category: "gaming,tech",
-    image: "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1682464651356-3c6780eff00c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dWx0aXBsYXllciUyMGJsb2NrY2hhaW4lMjBlc2NhcGUlMjByb29tfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '22',
@@ -269,7 +268,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 229,
     daysLeft: 44,
     category: "environment,community,tech",
-    image: "https://images.unsplash.com/photo-1529859981207-70a5026c98f7?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1716603741742-db515ca0a8e6?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8c3VzdGFpbmFibGUlMjBtb2R1bGFyJTIwaG91c2luZyUyMGJsb2Nrc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '23',
@@ -281,7 +280,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 73,
     daysLeft: 14,
     category: "art,community",
-    image: "https://images.unsplash.com/photo-1444065381814-865dc9da92c0?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1693181640721-33d8e1e0ca92?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cHVibGljJTIwYXJ0JTIwbXVyYWwlMjBORlQlMjBwcm9qZWN0fGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '24',
@@ -293,7 +292,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 58,
     daysLeft: 30,
     category: "community,food,tech",
-    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1681401569921-e3e99499bfe9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmVjaXBlJTIwYm9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '25',
@@ -329,7 +328,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 103,
     daysLeft: 21,
     category: "gaming,community,health",
-    image: "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1633545495735-25df17fb9f31?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGUtc3BvcnRzJTIwbGVhZ3VlfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '28',
@@ -341,7 +340,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 244,
     daysLeft: 16,
     category: "education,tech",
-    image: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1758687126445-98edd4b15ba6?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8QUktcG93ZXJlZCUyMHBlcnNvbmFsaXplZCUyMHR1dG9yaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '29',
@@ -353,7 +352,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 311,
     daysLeft: 54,
     category: "environment,tech,finance",
-    image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1742395281482-7e970c1f6057?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNhcmJvbiUyMG9mZnNldHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '30',
@@ -377,7 +376,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 54,
     daysLeft: 22,
     category: "community,tech,governance",
-    image: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1730446005007-5efc87137852?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dm90ZXIlMjB0dXJub3V0JTIwdHJhY2tlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '32',
@@ -389,7 +388,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 102,
     daysLeft: 31,
     category: "environment,technology,travel",
-    image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1543204511-75243848e4d0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YXVnbWVudGVkJTIwcmVhbGl0eSUyMGVjby10b3VyaXNtfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '33',
@@ -401,7 +400,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 86,
     daysLeft: 17,
     category: "community,environment,food",
-    image: "https://images.unsplash.com/photo-1529859981207-70a5026c98f7?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1663091058998-074d80a7083b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cm9vZnRvcCUyMGZhcm0lMjBjb2xsZWN0aXZlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '34',
@@ -413,7 +412,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 91,
     daysLeft: 24,
     category: "environment,community,tech",
-    image: "https://images.unsplash.com/photo-1444065381814-865dc9da92c0?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1722114463122-5554e86e3ef2?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmVtb3RlJTIwdmlsbGFnZSUyMHNvbGFyJTIwcHJvamVjdHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '35',
@@ -425,7 +424,7 @@ export const mockCampaigns: Campaign[] = [
     backers: 73,
     daysLeft: 21,
     category: "science,education,tech",
-    image: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1518483239595-6f1f9e80b7c7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGJsb2NrY2hhaW4lMjByZXNlYXJjaCUyMGpvdXJuYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=900"
   },
   {
     id: '36',
@@ -437,6 +436,6 @@ export const mockCampaigns: Campaign[] = [
     backers: 149,
     daysLeft: 26,
     category: "tech,hardware,home",
-    image: "https://images.unsplash.com/photo-1517511620798-cec17d428bc0?w=800&q=80"
+    image: "https://plus.unsplash.com/premium_photo-1688686804638-fadb460edc4a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c21hcnQlMjBob21lfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
   }
 ];
