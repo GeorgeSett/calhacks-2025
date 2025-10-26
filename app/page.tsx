@@ -2,6 +2,7 @@ import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
 import { Spotlight } from "@/components/ui/spotlight";
 import CoinFlowAnimation from "./CoinFlowAnimation";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
 
 export default function Home() {
   return (
@@ -41,15 +42,25 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
-              <div className="text-stat-lg gradient-text-purple mb-1">$0</div>
+              <AnimatedCounter
+                end={250000}
+                prefix=""
+                className="text-stat-lg gradient-text-purple mb-1"
+              />
               <div className="text-sm text-text-dim">raised all time</div>
             </div>
             <div className="text-center">
-              <div className="text-stat-lg gradient-text-blue mb-1">0</div>
+              <AnimatedCounter
+                end={36}
+                className="text-stat-lg gradient-text-blue mb-1"
+              />
               <div className="text-sm text-text-dim">active campaigns</div>
             </div>
             <div className="text-center">
-              <div className="text-stat-lg gradient-text-green mb-1">0</div>
+              <AnimatedCounter
+                end={500}
+                className="text-stat-lg gradient-text-green mb-1"
+              />
               <div className="text-sm text-text-dim">total backers</div>
             </div>
           </div>
@@ -61,7 +72,7 @@ export default function Home() {
       {/* Why section */}
       <section className="py-24 border-t border-border">
         <div className="container mx-auto px-6">
-          <h2 className="text-title mb-16">why this exists</h2>
+          <h2 className="text-title mb-16">why we exist</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-16">
             <div>
               <h3 className="text-xl font-semibold mb-3">

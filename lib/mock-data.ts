@@ -117,15 +117,15 @@ export const mockCampaigns: Campaign[] = [
   },
   {
     id: '10',
-    title: "animated nft children's storybook",
-    description: "interactive stories teaching kids about web3 and safety",
+    title: "Calhacks 12.0",
+    description: "Matthew, George, Aditya, and Zek's awesome hackathon project",
     creator: "0x7070...8080",
-    raised: 15000,
-    goal: 40000,
-    backers: 88,
-    daysLeft: 19,
-    category: "education,art",
-    image: "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?w=800&q=80"
+    raised: 60000,
+    goal: 70000,
+    backers: 67,
+    daysLeft: 67,
+    category: "creators",
+    image: "https://drive.google.com/uc?export=view&id=1rLolcI9dB3gmXiYN6-1eGAi55m1GiuTH"
   },
   {
     id: '11',
