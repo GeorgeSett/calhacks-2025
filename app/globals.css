@@ -38,12 +38,12 @@ body {
 
 .text-subtitle {
   font-size: 20px;
-  opacity: 0.9;
+  color: var(--color-text-dim);
 }
 
 .text-body {
   font-size: 14px;
-  color: var(--text-dim);
+  color: var(--color-text-dim);
   line-height: 1.6;
 }
 

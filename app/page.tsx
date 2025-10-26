@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Spline from "@splinetool/react-spline/next";
 import { Spotlight } from "@/components/ui/spotlight";
+import CoinFlowAnimation from "./CoinFlowAnimation";
 
 export default function Home() {
   return (
@@ -55,8 +56,10 @@ export default function Home() {
         </div>
       </section>
 
+      <CoinFlowAnimation />
+
       {/* Why section */}
-      <section className="py-24">
+      <section className="py-24 border-t border-border">
         <div className="container mx-auto px-6">
           <h2 className="text-title mb-16">why this exists</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-16">
@@ -66,7 +69,6 @@ export default function Home() {
               </h3>
               <p className="text-body">
                 smart contracts handle everything. funds release when goals hit.
-                no one can touch them otherwise.
               </p>
             </div>
             <div>
