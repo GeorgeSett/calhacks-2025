@@ -1,2 +1,2 @@
-export const PACKAGE_ID = '0x4e361ae7494fdcc420eba0335edd99a10a1d777afc00f64fee1f49885efc8bee';
+export const PACKAGE_ID = '0xc595ab3a364c5ca2fa715a44f729d3e752383dd1b750b5cc05202f6512ffbaa9';
 export const RPC_URL = 'https://fullnode.testnet.sui.io';

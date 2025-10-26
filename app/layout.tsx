@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Providers } from "./providers";
 import "@mysten/dapp-kit/dist/index.css";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "SUI Crowdfund - Blockchain Crowdfunding Platform",
@@ -24,6 +25,7 @@ export default function RootLayout({
             <main className="grow">{children}</main>
             <Footer />
           </Providers>
+          <Toaster position="bottom-right" />
         </div>
       </body>
     </html>

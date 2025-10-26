@@ -1,43 +1,40 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { Campaign } from "@/types/campaign";
-import { getCampaign } from "@/lib/sui/rpc";
-import { truncateAddress } from "@/lib/utils";
+import { CampaignDetails, CampaignDonation, getCampaign } from "@/lib/sui/rpc";
+import { getRelativeTime, truncateAddress } from "@/lib/utils";
+import { donateToCampaign } from "@/lib/sui/useDonation";
+import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { CampaignPageSkeleton } from "@/components/CampaignPage/CampaignPageSkeleton";
 
 export default function CampaignPage() {
   const params = useParams();
   const campaignId = params.id as string;
+  const suiClient = useSuiClient();
+  const { mutate: signAndExecute } = useSignAndExecuteTransaction();
 
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState("");
-  const [campaign, setCampaign] = useState<Campaign | null | undefined>();
+  const [campaign, setCampaign] = useState<CampaignDetails | null | undefined>();
+  const [isDonating, setIsDonating] = useState<boolean>(false);
 
-  useEffect(() => {
+  const reloadCampaign = useCallback(() => {
     getCampaign(campaignId).then((res) => {
       setCampaign(res);
     });
   }, [campaignId]);
 
-  // Generate stable random data for recent backers
-  const recentBackers = useMemo(() => {
-    // Generate random values outside of render
-    const generateAddress = (seed: number) => {
-      const hash1 = (seed * 9301 + 49297) % 233280;
-      const hash2 = (seed * 1103 + 29473) % 233280;
-      return `0x${hash1.toString(16).slice(0, 6)}...${hash2.toString(16).slice(0, 4)}`;
-    };
+  useEffect(() => {
+    reloadCampaign();
+  }, [reloadCampaign]);
 
-    return Array.from({ length: 5 }, (_, i) => ({
-      id: i,
-      address: generateAddress(i),
-      hoursAgo: (i * 5) % 24,
-      amount: [10, 25, 50, 100][i % 4]
-    }));
-  }, []);
+  const recentBackers: CampaignDonation[] = useMemo(() => {
+    if (!campaign) return [];
+
+    return campaign.backerData.slice(-5).toReversed();
+  }, [campaign]);
 
   if (campaign === undefined) {
     return <CampaignPageSkeleton />;
@@ -57,13 +54,30 @@ export default function CampaignPage() {
   }
 
   const percentage = Math.min((campaign.raised / campaign.goal) * 100, 100);
-  const quickAmounts = [10, 25, 50, 100, 250];
+  const quickAmounts = [1, 2.5, 5, 10, 25];
 
-  const handleBack = () => {
+  const handleBack = async () => {
     const amount =
       selectedAmount || (customAmount ? parseFloat(customAmount) : 0);
-    if (amount > 0) {
-      // donation logic
+    if (amount <= 0) {
+      return;
+    }
+
+    setIsDonating(true);
+
+    try {
+      await donateToCampaign({
+        campaignId,
+        suiAmount: amount,
+        suiClient,
+        signAndExecute,
+      });
+      reloadCampaign();
+    } catch (error) {
+      console.error("Donation process failed:", error);
+      // Error toast is handled within the utility function
+    } finally {
+      setIsDonating(false);
     }
   };
 
@@ -118,10 +132,10 @@ export default function CampaignPage() {
               <div className="mb-6">
                 <div className="flex justify-between items-baseline mb-2">
                   <span className="text-stat-md gradient-text-blue">
-                    ${campaign.raised.toLocaleString()}
+                    {campaign.raised.toLocaleString()} SUI
                   </span>
                   <span className="text-text-dim">
-                    of ${campaign.goal.toLocaleString()}
+                    of {campaign.goal.toLocaleString()} SUI
                   </span>
                 </div>
                 <div className="w-full h-3 bg-bg rounded-full overflow-hidden mb-4">
@@ -165,7 +179,7 @@ export default function CampaignPage() {
                           : "bg-bg hover:bg-surface border border-border"
                       }`}
                     >
-                      ${amount}
+                      {amount} SUI
                     </button>
                   ))}
                 </div>
@@ -176,9 +190,6 @@ export default function CampaignPage() {
                     Or enter custom amount
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-dim">
-                      $
-                    </span>
                     <input
                       type="number"
                       value={customAmount}
@@ -187,8 +198,11 @@ export default function CampaignPage() {
                         setSelectedAmount(null);
                       }}
                       placeholder="0.00"
-                      className="w-full pl-7 pr-4 py-3 bg-bg border border-border rounded-lg focus:outline-none focus:border-accent"
+                      className="w-full pl-4 pr-10 py-3 bg-bg border border-border rounded-lg focus:outline-none focus:border-accent"
                     />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-text-dim">
+                      SUI
+                    </span>
                   </div>
                 </div>
 
@@ -244,17 +258,17 @@ export default function CampaignPage() {
             <div>
               <h2 className="text-2xl font-semibold mb-6">Recent backers</h2>
               <div className="space-y-3">
-                {recentBackers.map((backer) => (
+                {recentBackers.map((backer, i) => (
                   <div
-                    key={backer.id}
+                    key={i}
                     className="flex items-center justify-between p-4 bg-surface rounded-lg border border-border"
                   >
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full gradient-purple" />
                       <div>
-                        <p className="font-semibold">{backer.address}</p>
+                        <p className="font-semibold">{truncateAddress(backer.donator)}</p>
                         <p className="text-sm text-text-dim">
-                          {backer.hoursAgo} hours ago
+                          {getRelativeTime(backer.timestamp)}
                         </p>
                       </div>
                     </div>
@@ -353,11 +367,12 @@ export default function CampaignPage() {
                     onClick={handleBack}
                     disabled={
                       !selectedAmount &&
-                      (!customAmount || parseFloat(customAmount) <= 0)
+                      (!customAmount || parseFloat(customAmount) <= 0) &&
+                      !isDonating
                     }
                     className={`btn w-full ${
                       selectedAmount ||
-                      (customAmount && parseFloat(customAmount) > 0)
+                      (customAmount && parseFloat(customAmount) > 0) || isDonating
                         ? "btn-primary"
                         : "bg-surface text-text-dim cursor-not-allowed"
                     }`}

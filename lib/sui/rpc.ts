@@ -1,5 +1,7 @@
 import { PACKAGE_ID, RPC_URL } from "@/lib/sui/constants";
 import { Campaign } from "@/types/campaign";
+import { SuiClient } from "@mysten/sui/client";
+import { act } from "react";
 
 type RpcResponse<T> = {
   jsonrpc: string;
@@ -12,6 +14,18 @@ type RpcResponse<T> = {
     };
     hasNextPage: boolean;
   }
+};
+
+type RawCampaignDonation = {
+  donator: string;
+  amount: string;
+  timestamp: string;
+};
+
+export type CampaignDonation = {
+  donator: string;
+  amount: number;
+  timestamp: Date;
 };
 
 type RawCampaignList = {
@@ -33,6 +47,7 @@ type RawCampaignList = {
     tag: string;
     title: string;
     image_url: string;
+    backers: RawCampaignDonation[];
   };
   bcsEncoding: string;
   bcs: string;
@@ -53,6 +68,7 @@ type RawCampaignData = {
     "type": string;
     "hasPublicTransfer": boolean;
     "fields": {
+      backers: { fields: RawCampaignDonation }[];
       "creator": string;
       "deadline": string;
       "description": string;
@@ -68,7 +84,9 @@ type RawCampaignData = {
   }
 };
 
-export async function getAllCampaigns(): Promise<Campaign[] | null> {
+export type CampaignDetails = Campaign & { backerData: CampaignDonation[] }
+
+export async function getAllCampaigns(client: SuiClient): Promise<Campaign[] | null> {
   const res = await fetch(RPC_URL, {
     method: 'POST',
     headers: {
@@ -87,7 +105,7 @@ export async function getAllCampaigns(): Promise<Campaign[] | null> {
           }
         },
         null,
-        3,
+        18,
         false
       ]
     })
@@ -100,21 +118,52 @@ export async function getAllCampaigns(): Promise<Campaign[] | null> {
   const json: RpcResponse<RawCampaignList> = await res.json();
   const rawCampaignData = json.result.data;
 
-  return rawCampaignData.map(raw => ({
-    id: raw.parsedJson.campaign_id,
-    title: raw.parsedJson.title,
-    description: raw.parsedJson.description,
-    creator: raw.parsedJson.creator,
-    raised: 0, // TODO
-    goal: parseInt(raw.parsedJson.goal) / 1000000000,
-    backers: 0, // TODO
-    daysLeft: Math.floor((parseInt(raw.parsedJson.deadline) - Date.now()) / (24 * 60 * 60 * 1000)),
-    category: raw.parsedJson.tag,
-    image: raw.parsedJson.image_url
+  const campaignEvents = rawCampaignData
+    .map(event => event.parsedJson)
+    .filter(e => e.title !== undefined)
+    .filter(e => parseInt(e.deadline) > Date.now());
+
+  const campaignIds = campaignEvents.map(event => event.campaign_id)
+
+  if (campaignIds.length === 0) {
+    return [];
+  }
+
+  const campaignObjects = await client.multiGetObjects({
+    ids: campaignIds,
+    options: { showContent: true }, // This is crucial to get the `fields`
+  });
+
+  const now = Date.now();
+
+  console.log(campaignObjects)
+
+  const activeCampaigns = campaignObjects
+    .filter(obj => obj.data) // Filter out any objects that might have been deleted
+    .map(obj => {
+      const fields = (obj.data?.content as any)?.fields;
+      // Ensure the deadline is in the correct format (number)
+      const deadline = Number(fields.deadline);
+      return { ...fields, deadline };
+    });
+
+  console.log(activeCampaigns);
+
+  return activeCampaigns.map(raw => ({
+    id: raw.id.id,
+    title: raw.title,
+    description: raw.description,
+    creator: raw.creator,
+    raised: parseInt(raw.raised) / 1000000000,
+    goal: parseInt(raw.goal) / 1000000000,
+    backers: raw.backers.reduce((acc, cur) => acc.add(cur.fields.donator), new Set<string>()).size,
+    daysLeft: Math.floor((parseInt(raw.deadline) - Date.now()) / (24 * 60 * 60 * 1000)),
+    category: raw.tag,
+    image: raw.image_url
   }));
 }
 
-export async function getCampaign(campaignId: string): Promise<Campaign | null> {
+export async function getCampaign(campaignId: string): Promise<CampaignDetails | null> {
   const res = await fetch(RPC_URL, {
     method: 'POST',
     headers: {
@@ -151,11 +200,17 @@ export async function getCampaign(campaignId: string): Promise<Campaign | null> 
     title: data.content.fields.title,
     description: data.content.fields.description,
     creator: data.content.fields.creator,
-    raised: parseInt(data.content.fields.raised),
+    raised: parseInt(data.content.fields.raised) / 1000000000,
     goal: parseInt(data.content.fields.goal) / 1000000000,
-    backers: 0, // TODO
+    backers: data.content.fields.backers.reduce((acc, cur) => acc.add(cur.fields.donator), new Set<string>()).size,
+    backerData: data.content.fields.backers.map(b => ({ donator: b.fields.donator, amount: parseInt(b.fields.amount) / 1000000000, timestamp: new Date(parseInt(b.fields.timestamp)) })),
     daysLeft: Math.floor((parseInt(data.content.fields.deadline) - Date.now()) / (24 * 60 * 60 * 1000)),
     category: data.content.fields.tag,
     image: data.content.fields.image_url
   };
 }
+
+/*
+export async function getCampaignBackers(campaignId: string): Promise<CampaignBacker[] | null> {
+
+}*/

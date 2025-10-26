@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useMemo, useEffect } from "react";
 import { CampaignCard } from "@/components/ExplorePage/CampaignCard";
 import { CampaignCardSkeleton } from "@/components/ExplorePage/CampaignCardSkeleton";
@@ -7,6 +8,7 @@ import { Input } from "@/components/ui/Input";
 import Header from "@/components/layout/Header";
 import { Campaign } from "@/types/campaign";
 import { getAllCampaigns } from "@/lib/sui/rpc";
+import { useSuiClient } from "@mysten/dapp-kit";
 import { ArrowUpDown, Filter } from "lucide-react";
 
 type SortOption = "newest" | "most-funded" | "ending-soon";
@@ -17,16 +19,17 @@ export default function ExplorePage() {
   const [allCampaigns, setAllCampaigns] = useState<Campaign[] | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("newest");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const client = useSuiClient();
 
   useEffect(() => {
-    getAllCampaigns().then((res) => setAllCampaigns(res));
+    getAllCampaigns(client).then(res => setAllCampaigns(res));
   }, []);
 
   const filteredAndSortedCampaigns = useMemo(() => {
     if (allCampaigns === null) {
       return [];
     }
-    
+
     // First filter
     let campaigns = allCampaigns.filter((campaign) => {
       const matchesFilter = filter === "all" || campaign.category === filter;
@@ -40,13 +43,13 @@ export default function ExplorePage() {
     switch (sortBy) {
       case "newest":
         return campaigns.sort((a, b) => b.id.localeCompare(a.id));
-      
+
       case "most-funded":
         return campaigns.sort((a, b) => b.raised - a.raised);
-      
+
       case "ending-soon":
         return campaigns.sort((a, b) => a.daysLeft - b.daysLeft);
-      
+
       default:
         return campaigns;
     }
@@ -80,7 +83,7 @@ export default function ExplorePage() {
                 type="text"
                 placeholder="search for a campaign..."
               />
-              
+
               {/* Sort Dropdown */}
               <div className="relative">
                 <button
@@ -93,11 +96,11 @@ export default function ExplorePage() {
                 {isDropdownOpen && (
                   <>
                     {/* Backdrop */}
-                    <div 
-                      className="fixed inset-0 z-10" 
+                    <div
+                      className="fixed inset-0 z-10"
                       onClick={() => setIsDropdownOpen(false)}
                     />
-                    
+
                     {/* Dropdown Menu */}
                     <div className="absolute right-0 mt-2 w-48 bg-surface border border-border rounded-lg shadow-lg overflow-hidden z-20">
                       {sortOptions.map((option) => (
