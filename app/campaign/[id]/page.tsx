@@ -170,7 +170,7 @@ export default function CampaignPage() {
               {/* Backing section for mobile */}
               {isEnded ? (
                 <div className="border-t border-border pt-6">
-                  <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-center">
+                  <div className="p-4 bg-red-900/20 border border-red-800 rounded-lg text-center">
                     <p className="text-body ">
                       This campaign has ended and is no longer accepting
                       donations.
@@ -324,7 +324,7 @@ export default function CampaignPage() {
                 {/* Backing section */}
                 {isEnded ? (
                   <div className="border-t border-border pt-6">
-                    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-center">
+                    <div className="p-4  bg-red-900/20 border border-red-800 rounded-lg text-center">
                       <p className="text-body">
                         This campaign has ended and is no longer accepting
                         donations.
