@@ -31,7 +31,7 @@ export default function ExplorePage() {
     }
 
     // First filter
-    let campaigns = allCampaigns.filter((campaign) => {
+    const campaigns = allCampaigns.filter((campaign) => {
       const matchesFilter = filter === "all" || campaign.category === filter;
       const matchesSearch =
         campaign.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

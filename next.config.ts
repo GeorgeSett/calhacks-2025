@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
         port: "",
         pathname: "/**"
+      },
+      {
+        protocol: "https",
+        hostname: "aggregator.walrus-testnet.walrus.space",
+        port: "",
+        pathname: "/v1/blobs/**"
       }
     ]
   }

@@ -1,28 +1,37 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import { X, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import { TextArea } from "../ui/TextArea";
-import { CampaignCategory, CAMPAIGN_CATEGORIES } from "@/types/campaign";
+import { CAMPAIGN_CATEGORIES } from "@/types/campaign";
+import {
+  useSignAndExecuteTransaction,
+  useSuiClient
+} from "@mysten/dapp-kit";
+import { createCampaign } from "@/lib/sui/create";
+import toast from "react-hot-toast";
 
 interface CreateCampaignModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function CreateCampaignModal({
-  isOpen,
-  onClose
-}: CreateCampaignModalProps) {
+export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProps) {
+  const suiClient = useSuiClient();
+  const { mutate: signAndExecute } = useSignAndExecuteTransaction();
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    category: "tech" as CampaignCategory,
+    category: "tech",
     goal: "",
     duration: "",
     image: null as File | null
   });
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -31,8 +40,6 @@ export function CreateCampaignModal({
     } else {
       document.body.style.overflow = "unset";
     }
-
-    // Cleanup on unmount
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -45,20 +52,98 @@ export function CreateCampaignModal({
         onClose();
       }
     };
-
     document.addEventListener("keydown", handleEscape);
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // TODO: Add campaign creation logic here
-    console.log("Campaign data:", formData);
+
+    if (!formData.image) {
+      setError("Please select a campaign image.");
+      return;
+    }
+
+    const goalSui = parseFloat(formData.goal);
+    const durationMs = parseInt(formData.duration) * 24 * 60 * 60 * 1000; // days to ms
+
+    if (isNaN(goalSui) || goalSui <= 0) {
+      toast.error("Invalid funding goal. Must be a positive number.");
+      return;
+    }
+    if (isNaN(durationMs) || durationMs <= 0) {
+      toast.error("Invalid campaign duration. Must be a positive number.");
+      return;
+    }
+    if (!formData.title || !formData.description || !formData.category) {
+      toast.error("No field can be left blank");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      /*const uploadUrl = 'https://publisher.walrus-testnet.walrus.space/v1/blobs?epochs=10';
+      const uploadResponse = await fetch(uploadUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": 'image/png'
+        },
+        body: formData.image
+      });
+
+      if (!uploadResponse.ok) {
+        const resJson = await uploadResponse.json();
+        toast.error(resJson.error || "Image upload failed. Please try again.");
+        return;
+      }
+
+      const resData: { newlyCreated: { blobObject: { id: string } } } = await uploadResponse.json();
+      const objectId = resData?.newlyCreated?.blobObject?.id;
+      if (typeof objectId !== "string") {
+        toast.error("Invalid response from image uploader.");
+        return;
+      }*/
+      //const imageUrl = `https://aggregator.walrus-testnet.walrus.space/v1/blobs/by-object-id/${objectId}`;
+      const imageUrl = 'https://aggregator.walrus-testnet.walrus.space/v1/…a210d95468fdaf3d0b3c843f4c309eb5c3678361382cfd9fc';
+
+      // Call the on-chain function
+      await createCampaign({
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        imageUrl,
+        goalSui: goalSui,
+        durationMs: durationMs,
+        suiClient: suiClient,
+        signAndExecute: signAndExecute
+      });
+
+      console.log("Campaign created successfully!");
+      onClose(); // Close modal on success
+
+    } catch (err) {
+      console.error("Failed to create campaign:", err);
+      setError("An unknown error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+      if (file.size > MAX_FILE_SIZE) {
+        setError("File is too large. Maximum size is 2MB.");
+        setFormData({ ...formData, image: null });
+        // Clear the file input
+        e.target.value = "";
+        return;
+      }
+
+      setError(null); // Clear any previous errors
       setFormData({ ...formData, image: file });
     }
   };
@@ -88,6 +173,7 @@ export function CreateCampaignModal({
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* ... (form fields are unchanged) ... */}
           {/* Campaign Title */}
           <div>
             <label className="block text-sm font-medium mb-2">
@@ -131,7 +217,7 @@ export function CreateCampaignModal({
                     onClick={() =>
                       setFormData({
                         ...formData,
-                        category: category as CampaignCategory
+                        category
                       })
                     }
                     className={`px-4 py-2 rounded-lg text-sm transition-all ${
@@ -150,19 +236,18 @@ export function CreateCampaignModal({
           {/* Funding Goal */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              funding goal (USD)
+              funding goal (SUI)
             </label>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim">
-                $
+                SUI
               </span>
               <Input
                 type="number"
                 value={formData.goal}
                 onChange={(value) => setFormData({ ...formData, goal: value })}
                 placeholder="0"
-                min="1"
-                className="w-full pl-8"
+                className="w-full pl-12"
                 required
               />
             </div>
@@ -218,7 +303,7 @@ export function CreateCampaignModal({
               )}
             </div>
             <p className="text-xs text-text-dim mt-2">
-              upload an image that represents your campaign (JPG, PNG, GIF)
+              upload an image that represents your campaign (max 2MB)
             </p>
           </div>
 
@@ -247,17 +332,34 @@ export function CreateCampaignModal({
             </ul>
           </div>
 
-          {/* Action Buttons */}
+          {error && (
+            <div className="p-3 bg-red-900/20 border border-red-500/50 rounded-lg text-center">
+              <p className="text-sm text-red-400">{error}</p>
+            </div>
+          )}
+
           <div className="flex gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
               className="btn btn-ghost flex-1"
+              disabled={isLoading}
             >
               cancel
             </button>
-            <button type="submit" className="btn btn-primary flex-1">
-              create campaign
+            <button
+              type="submit"
+              className="btn btn-primary flex-1"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  creating...
+                </span>
+              ) : (
+                "create campaign"
+              )}
             </button>
           </div>
         </form>

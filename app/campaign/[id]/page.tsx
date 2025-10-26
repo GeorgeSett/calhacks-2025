@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CampaignDetails, CampaignDonation, getCampaign } from "@/lib/sui/rpc";
 import { getRelativeTime, truncateAddress } from "@/lib/utils";
-import { donateToCampaign } from "@/lib/sui/useDonation";
+import { donateToCampaign } from "@/lib/sui/donate";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { CampaignPageSkeleton } from "@/components/CampaignPage/CampaignPageSkeleton";
 

@@ -1,6 +1,5 @@
 import { SuiClient } from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
-import { MIST_PER_SUI } from "@mysten/sui/utils";
 import { PACKAGE_ID } from "@/lib/sui/constants";
 import toast from "react-hot-toast";
 
