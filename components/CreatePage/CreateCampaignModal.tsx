@@ -12,11 +12,15 @@ import toast from "react-hot-toast";
 interface CreateCampaignModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onCampaignCreated: () => void;
+  creatorAddress: string;
 }
 
 export function CreateCampaignModal({
   isOpen,
-  onClose
+  onClose,
+  onCampaignCreated,
+  creatorAddress
 }: CreateCampaignModalProps) {
   const suiClient = useSuiClient();
   const { mutate: signAndExecute } = useSignAndExecuteTransaction();
@@ -97,6 +101,7 @@ export function CreateCampaignModal({
       if (!uploadResponse.ok) {
         const resJson = await uploadResponse.json();
         toast.error(resJson.error || "Image upload failed. Please try again.");
+        setIsLoading(false);
         return;
       }
 
@@ -105,6 +110,7 @@ export function CreateCampaignModal({
       const objectId = resData?.newlyCreated?.blobObject?.id;
       if (typeof objectId !== "string") {
         toast.error("Invalid response from image uploader.");
+        setIsLoading(false);
         return;
       }
       const imageUrl = `https://aggregator.walrus-testnet.walrus.space/v1/blobs/by-object-id/${objectId}`;
@@ -122,9 +128,23 @@ export function CreateCampaignModal({
       });
 
       console.log("Campaign created successfully!");
-      onClose(); // Close modal on success
+      onClose();
+      toast.success("Campaign created successfully!");
+
+      setFormData({
+        title: "",
+        description: "",
+        category: "tech",
+        goal: "",
+        duration: "",
+        image: null
+      });
+
+      // Notify parent to refresh campaigns
+      onCampaignCreated();
     } catch (err) {
       console.error("Failed to create campaign:", err);
+      toast.error("Failed to create campaign. Please try again.");
       setError("An unknown error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -134,16 +154,15 @@ export function CreateCampaignModal({
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+      const MAX_FILE_SIZE = 2 * 1024 * 1024;
       if (file.size > MAX_FILE_SIZE) {
         setError("File is too large. Maximum size is 2MB.");
         setFormData({ ...formData, image: null });
-        // Clear the file input
         e.target.value = "";
         return;
       }
 
-      setError(null); // Clear any previous errors
+      setError(null);
       setFormData({ ...formData, image: file });
     }
   };
@@ -152,15 +171,12 @@ export function CreateCampaignModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="relative bg-surface rounded-xl border border-border max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        {/* Header */}
         <div className="sticky top-0 bg-surface border-b border-border px-6 py-4 flex items-center justify-between">
           <h2 className="text-2xl font-semibold">create new campaign</h2>
           <button
@@ -171,7 +187,6 @@ export function CreateCampaignModal({
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Campaign Title */}
           <div>
@@ -191,7 +206,6 @@ export function CreateCampaignModal({
             </p>
           </div>
 
-          {/* Description */}
           <div>
             <label className="block text-sm font-medium mb-2">
               description
@@ -212,7 +226,6 @@ export function CreateCampaignModal({
             </p>
           </div>
 
-          {/* Category */}
           <div>
             <label className="block text-sm font-medium mb-2">category</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -221,12 +234,7 @@ export function CreateCampaignModal({
                   <button
                     key={category}
                     type="button"
-                    onClick={() =>
-                      setFormData({
-                        ...formData,
-                        category
-                      })
-                    }
+                    onClick={() => setFormData({ ...formData, category })}
                     className={`px-4 py-2 rounded-lg text-sm transition-all ${
                       formData.category === category
                         ? "bg-accent text-white"
@@ -240,12 +248,14 @@ export function CreateCampaignModal({
             </div>
           </div>
 
-          {/* Funding Goal */}
           <div>
             <label className="block text-sm font-medium mb-2">
               funding goal (SUI)
             </label>
             <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim">
+                SUI
+              </span>
               <Input
                 type="number"
                 value={formData.goal}
@@ -260,7 +270,6 @@ export function CreateCampaignModal({
             </div>
           </div>
 
-          {/* Campaign Duration */}
           <div>
             <label className="block text-sm font-medium mb-2">
               campaign duration (days)
@@ -282,7 +291,6 @@ export function CreateCampaignModal({
             </p>
           </div>
 
-          {/* Image Upload */}
           <div>
             <label className="block text-sm font-medium mb-2">
               campaign image
@@ -314,7 +322,6 @@ export function CreateCampaignModal({
             </p>
           </div>
 
-          {/* Info Box */}
           <div className="p-4 bg-bg rounded-lg border border-border">
             <h4 className="text-sm font-semibold mb-2">before you create</h4>
             <ul className="space-y-1 text-xs text-text-dim">
