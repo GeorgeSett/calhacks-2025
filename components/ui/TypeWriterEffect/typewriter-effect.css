@@ -1,0 +1,15 @@
+.text-type {
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.text-type__cursor {
+  font-size: 72px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.text-type__cursor--hidden {
+  display: none;
+}
