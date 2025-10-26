@@ -40,8 +40,8 @@ export default function ExplorePage() {
     });
 
     // Separate active and ended campaigns
-    const activeCampaigns = campaigns.filter(campaign => campaign.daysLeft > 0);
-    const endedCampaigns = campaigns.filter(campaign => campaign.daysLeft <= 0);
+    const activeCampaigns = campaigns.filter(campaign => !campaign.is_ended);
+    const endedCampaigns = campaigns.filter(campaign => campaign.is_ended);
 
     // Sort active campaigns
     let sortedActiveCampaigns;

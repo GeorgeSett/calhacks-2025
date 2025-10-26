@@ -98,6 +98,10 @@ body {
   background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
 }
 
+.gradient-green {
+   background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+}
+
 .gradient-text-purple {
   background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
   -webkit-background-clip: text;
@@ -183,6 +187,19 @@ body {
       opacity: 0.4;
     }
   }
+}
+
+@keyframes pulse-blue {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse-blue {
+  animation: pulse-blue 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 input[type="number"]::-webkit-inner-spin-button,

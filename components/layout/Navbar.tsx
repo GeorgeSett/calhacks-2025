@@ -6,6 +6,7 @@ import {
   useCurrentAccount,
   useDisconnectWallet
 } from "@mysten/dapp-kit";
+import NotificationBell from "./NotificationBell";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,7 +28,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-4 md:gap-12">
             <div className="hidden md:flex gap-8">
               <Link
                 href="/explore"
@@ -43,7 +44,11 @@ export default function Navbar() {
               >
                 create
               </Link>
+             
             </div>
+            {/* Notification Bell */}
+            <NotificationBell />
+            
 
             {/* Wallet Connection */}
             {currentAccount ? (

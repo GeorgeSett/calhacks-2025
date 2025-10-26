@@ -76,9 +76,13 @@ type RawCampaignData = {
         "id": string;
       };
       "image_url": string;
+      "proof": string;
       "raised": string;
       "tag": string;
       "title": string;
+      "vote_amount": string;
+      "withdrawn_amount": string;
+      "refunded_amount": string;
     }
   }
 };
@@ -104,7 +108,7 @@ export async function getAllCampaigns(client: SuiClient): Promise<Campaign[] | n
           }
         },
         null,
-        18,
+        400,
         false
       ]
     })
@@ -119,8 +123,8 @@ export async function getAllCampaigns(client: SuiClient): Promise<Campaign[] | n
 
   const campaignEvents = rawCampaignData
     .map(event => event.parsedJson)
-    .filter(e => e.title !== undefined)
-    .filter(e => parseInt(e.deadline) > Date.now());
+    .filter(e => e.title !== undefined);
+    // Don't filter by deadline - we need campaigns in all states (including VOTING which is past deadline)
 
   const campaignIds = campaignEvents.map(event => event.campaign_id)
 
@@ -147,10 +151,16 @@ export async function getAllCampaigns(client: SuiClient): Promise<Campaign[] | n
       creator: raw.creator,
       raised: parseInt(raw.raised) / 1000000000,
       goal: parseInt(raw.goal) / 1000000000,
-      backers: raw.backers.reduce((acc, cur) => acc.add(cur.fields.donator), new Set<string>()).size,
+      backers: raw.backers.reduce((acc: Set<string>, cur: any) => acc.add(cur.fields.donator), new Set<string>()).size,
       daysLeft: Math.floor((parseInt(raw.deadline) - Date.now()) / (24 * 60 * 60 * 1000)),
       category: raw.tag,
-      image: raw.image_url
+      image: raw.image_url,
+      deadline: parseInt(raw.deadline),
+      proof: raw.proof || "",
+      vote_amount: parseInt(raw.vote_amount || "0") / 1000000000,
+      withdrawn_amount: parseInt(raw.withdrawn_amount || "0") / 1000000000,
+      refunded_amount: parseInt(raw.refunded_amount || "0") / 1000000000,
+      is_ended: parseInt(raw.deadline) <= Date.now()
     }));
 
   const result = [];
@@ -206,12 +216,65 @@ export async function getCampaign(campaignId: string): Promise<CampaignDetails |
     creator: data.content.fields.creator,
     raised: parseInt(data.content.fields.raised) / 1000000000,
     goal: parseInt(data.content.fields.goal) / 1000000000,
-    backers: data.content.fields.backers.reduce((acc, cur) => acc.add(cur.fields.donator), new Set<string>()).size,
+    backers: data.content.fields.backers.reduce((acc: Set<string>, cur: any) => acc.add(cur.fields.donator), new Set<string>()).size,
     backerData: data.content.fields.backers.map(b => ({ donator: b.fields.donator, amount: parseInt(b.fields.amount) / 1000000000, timestamp: new Date(parseInt(b.fields.timestamp)) })),
     daysLeft: Math.floor((parseInt(data.content.fields.deadline) - Date.now()) / (24 * 60 * 60 * 1000)),
     category: data.content.fields.tag,
-    image: data.content.fields.image_url
+    image: data.content.fields.image_url,
+    deadline: parseInt(data.content.fields.deadline),
+    proof: data.content.fields.proof || "",
+    vote_amount: parseInt(data.content.fields.vote_amount || "0") / 1000000000,
+    withdrawn_amount: parseInt(data.content.fields.withdrawn_amount || "0") / 1000000000,
+    refunded_amount: parseInt(data.content.fields.refunded_amount || "0") / 1000000000,
+    is_ended: parseInt(data.content.fields.deadline) <= Date.now()
   };
+}
+
+export interface DonationReceipt {
+  id: string;
+  campaign_id: string;
+  amount: number;
+  voted: boolean;
+}
+
+export async function getUserDonationReceipts(
+  client: SuiClient,
+  userAddress: string,
+  campaignId?: string
+): Promise<DonationReceipt[]> {
+  try {
+    const objects = await client.getOwnedObjects({
+      owner: userAddress,
+      filter: {
+        StructType: `${PACKAGE_ID}::crowdfund::DonationReceipt`
+      },
+      options: {
+        showContent: true
+      }
+    });
+
+    const receipts = objects.data
+      .filter(obj => obj.data?.content)
+      .map(obj => {
+        const fields = (obj.data?.content as any)?.fields;
+        return {
+          id: fields.id.id,
+          campaign_id: fields.campaign_id,
+          amount: parseInt(fields.amount) / 1000000000,
+          voted: fields.voted
+        };
+      });
+
+    // Filter by campaign ID if provided
+    if (campaignId) {
+      return receipts.filter(receipt => receipt.campaign_id === campaignId);
+    }
+
+    return receipts;
+  } catch (error) {
+    console.error("Error fetching donation receipts:", error);
+    return [];
+  }
 }
 
 /*

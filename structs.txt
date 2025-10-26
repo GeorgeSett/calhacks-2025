@@ -1,0 +1,97 @@
+public struct Campaign has key, store {
+    id: UID,
+    creator: address,
+    title: String,
+    description: String,
+    image_url: String,
+    tag: String,
+    proof: String, // URL or hash of the proof
+    goal: u64,
+    deadline: u64, // funding deadline
+    raised: Balance<SUI>,
+    withdrawn_amount: u64,
+    vote_amount: u64,
+    backers: vector<CampaignDonation>
+}
+
+public struct CampaignCreated has copy, drop {
+    campaign_id: ID,
+    creator: address,
+    title: String,
+    description: String,
+    image_url: String,
+    tag: String,
+    goal: u64,
+    deadline: u64
+}
+
+public struct CampaignProofSubmitted has copy, drop {
+    campaign_id: ID,
+    proof_url: String
+}
+
+public struct DonationReceipt has key, store {
+    id: UID,
+    campaign_id: ID,
+    amount: u64,
+    voted: bool
+}
+
+public struct CampaignDonation has store {
+    donator: address,
+    amount: u64,
+    timestamp: u64
+}
+
+public struct CampaignDonated has copy, drop {
+    campaign_id: ID,
+    donator: address,
+    amount: u64
+}
+
+
+public fun create(
+    title: String,
+    description: String,
+    tag: String,
+    image_url: String,
+    goal: u64,
+    duration_ms: u64,
+    clock: &Clock,
+    ctx: &mut TxContext
+)
+
+public fun donate(
+    campaign: &mut Campaign,
+    donation: Coin<SUI>,
+    clock: &Clock,
+    ctx: &mut TxContext
+)
+
+public fun submit_proof(
+    campaign: &mut Campaign,
+    proof_url: String,
+    clock: &Clock,
+    ctx: &mut TxContext
+)
+
+public fun vote(
+    campaign: &mut Campaign,
+    receipt: &mut DonationReceipt,
+    vote: bool,
+    clock: &Clock,
+    ctx: &mut TxContext
+)
+
+public fun withdraw(
+    campaign: &mut Campaign,
+    clock: &Clock,
+    ctx: &mut TxContext
+)
+
+public fun refund(
+    campaign: &mut Campaign,
+    receipt: DonationReceipt,
+    clock: &Clock,
+    ctx: &mut TxContext
+): Coin<SUI>
