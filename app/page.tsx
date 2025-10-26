@@ -42,28 +42,18 @@ export default function Home() {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
-              <AnimatedCounter
-                end={250000}
-                prefix=""
-                className="text-stat-lg gradient-text-purple mb-1"
-              />
-              <div className="text-sm text-text-dim">raised all time</div>
+              <p className="text-stat-lg gradient-text-purple mb-1">250.0</p>
+              <div className="text-body text-text-dim">raised all time</div>
             </div>
 
             <div className="text-center">
-              <AnimatedCounter
-                end={500}
-                className="text-stat-lg gradient-text-green mb-1"
-              />
-              <div className="text-sm text-text-dim">total backers</div>
+              <p className="text-stat-lg gradient-text-green mb-1">500</p>
+              <div className="text-body text-text-dim">total backers</div>
             </div>
 
             <div className="text-center">
-              <AnimatedCounter
-                end={36}
-                className="text-stat-lg gradient-text-blue mb-1"
-              />
-              <div className="text-sm text-text-dim">active campaigns</div>
+              <p className="text-stat-lg gradient-text-blue mb-1">36</p>
+              <div className="text-body text-text-dim">active campaigns</div>
             </div>
           </div>
         </div>
