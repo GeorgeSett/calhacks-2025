@@ -15,33 +15,14 @@ export function AnimatedCounter({
   duration = 2000,
   suffix = "",
   prefix = "",
-  className = "",
+  className = ""
 }: AnimatedCounterProps) {
   const [count, setCount] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          animateCount();
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [hasAnimated]);
-
   const animateCount = () => {
     const startTime = Date.now();
-    const startValue = 0;
 
     const updateCount = () => {
       const currentTime = Date.now();
@@ -63,6 +44,24 @@ export function AnimatedCounter({
 
     requestAnimationFrame(updateCount);
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          animateCount();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasAnimated]);
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) {

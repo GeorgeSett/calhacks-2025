@@ -49,19 +49,21 @@ export default function Home() {
               />
               <div className="text-sm text-text-dim">raised all time</div>
             </div>
-            <div className="text-center">
-              <AnimatedCounter
-                end={36}
-                className="text-stat-lg gradient-text-blue mb-1"
-              />
-              <div className="text-sm text-text-dim">active campaigns</div>
-            </div>
+
             <div className="text-center">
               <AnimatedCounter
                 end={500}
                 className="text-stat-lg gradient-text-green mb-1"
               />
               <div className="text-sm text-text-dim">total backers</div>
+            </div>
+
+            <div className="text-center">
+              <AnimatedCounter
+                end={36}
+                className="text-stat-lg gradient-text-blue mb-1"
+              />
+              <div className="text-sm text-text-dim">active campaigns</div>
             </div>
           </div>
         </div>
