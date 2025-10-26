@@ -11,8 +11,12 @@ export const mockCampaigns: Campaign[] = [
     backers: 234,
     daysLeft: 23,
     category: "tech",
-    image:
-      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80",
+    deadline: Date.now() + (23 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '2',
@@ -24,8 +28,12 @@ export const mockCampaigns: Campaign[] = [
     backers: 89,
     daysLeft: 45,
     category: "art",
-    image:
-      "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&q=80",
+    deadline: Date.now() + (45 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '3',
@@ -37,8 +45,12 @@ export const mockCampaigns: Campaign[] = [
     backers: 156,
     daysLeft: 12,
     category: "tech",
-    image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80",
+    deadline: Date.now() + (12 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '4',
@@ -50,8 +62,12 @@ export const mockCampaigns: Campaign[] = [
     backers: 67,
     daysLeft: 38,
     category: "gaming",
-    image:
-      "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80",
+    deadline: Date.now() + (38 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '5',
@@ -63,8 +79,12 @@ export const mockCampaigns: Campaign[] = [
     backers: 201,
     daysLeft: 29,
     category: "fashion",
-    image:
-      "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=800&q=80",
+    deadline: Date.now() + (29 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '6',
@@ -76,8 +96,12 @@ export const mockCampaigns: Campaign[] = [
     backers: 445,
     daysLeft: 8,
     category: "education",
-    image:
-      "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=80"
+    image: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=80",
+    deadline: Date.now() + (8 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '7',
@@ -88,8 +112,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 50000,
     backers: 132,
     daysLeft: 27,
-    category: "environment,community",
-    image: "https://plus.unsplash.com/premium_photo-1699537318809-30d89602535b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2F0ZXIlMjB3ZWxsc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
+    category: "tech",
+    image: "https://plus.unsplash.com/premium_photo-1699537318809-30d89602535b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2F0ZXIlMjB3ZWxsc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900",
+    deadline: Date.now() + (27 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '8',
@@ -100,8 +129,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 120000,
     backers: 591,
     daysLeft: 41,
-    category: "music,art,technology",
-    image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80"
+    category: "art",
+    image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80",
+    deadline: Date.now() + (41 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '9',
@@ -112,20 +146,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 70000,
     backers: 214,
     daysLeft: 33,
-    category: "gaming,tech",
-    image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=800&q=80"
-  },
-  {
-    id: '10',
-    title: "Calhacks 12.0",
-    description: "Matthew, George, Aditya, and Zek's awesome hackathon project",
-    creator: "0x7070...8080",
-    raised: 60000,
-    goal: 70000,
-    backers: 67,
-    daysLeft: 67,
-    category: "creators",
-    image: "https://drive.google.com/uc?export=view&id=1rLolcI9dB3gmXiYN6-1eGAi55m1GiuTH"
+    category: "gaming",
+    image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=800&q=80",
+    deadline: Date.now() + (33 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '11',
@@ -136,8 +163,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 65000,
     backers: 163,
     daysLeft: 12,
-    category: "environment,tech",
-    image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=80"
+    category: "tech",
+    image: "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=800&q=80",
+    deadline: Date.now() + (12 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '12',
@@ -148,8 +180,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 98000,
     backers: 307,
     daysLeft: 34,
-    category: "art,community",
-    image: "https://images.unsplash.com/photo-1758762906230-1ff96b9abf9a?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE3fHx8ZW58MHx8fHx8&ixlib=rb-4.1.0&q=60&w=3000"
+    category: "art",
+    image: "https://images.unsplash.com/photo-1758762906230-1ff96b9abf9a?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE3fHx8ZW58MHx8fHx8&ixlib=rb-4.1.0&q=60&w=3000",
+    deadline: Date.now() + (34 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '13',
@@ -160,8 +197,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 35000,
     backers: 112,
     daysLeft: 16,
-    category: "tech,health,community",
-    image: "https://images.unsplash.com/photo-1457694587812-e8bf29a43845?w=800&q=80"
+    category: "tech",
+    image: "https://images.unsplash.com/photo-1457694587812-e8bf29a43845?w=800&q=80",
+    deadline: Date.now() + (16 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '14',
@@ -172,8 +214,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 25000,
     backers: 72,
     daysLeft: 27,
-    category: "art,literature,tech",
-    image: "https://images.unsplash.com/photo-1629237213606-4d894c8af292?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
+    category: "art",
+    image: "https://images.unsplash.com/photo-1629237213606-4d894c8af292?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480",
+    deadline: Date.now() + (27 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '15',
@@ -184,8 +231,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 80000,
     backers: 198,
     daysLeft: 37,
-    category: "community,environment,tech",
-    image: "https://images.unsplash.com/photo-1424746219973-8fe3bd07d8e3?w=800&q=80"
+    category: "tech",
+    image: "https://images.unsplash.com/photo-1424746219973-8fe3bd07d8e3?w=800&q=80",
+    deadline: Date.now() + (37 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '16',
@@ -196,8 +248,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 60000,
     backers: 153,
     daysLeft: 23,
-    category: "education,community,tech",
-    image: "https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg?auto=compress&cs=tinysrgb&w=1600"
+    category: "education",
+    image: "https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    deadline: Date.now() + (23 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '17',
@@ -208,8 +265,13 @@ export const mockCampaigns: Campaign[] = [
     goal: 150000,
     backers: 321,
     daysLeft: 47,
-    category: "health,community,tech",
-    image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80"
+    category: "tech",
+    image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80",
+    deadline: Date.now() + (47 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
   {
     id: '18',
@@ -220,222 +282,12 @@ export const mockCampaigns: Campaign[] = [
     goal: 54000,
     backers: 131,
     daysLeft: 28,
-    category: "gaming,environment,tech",
-    image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&q=80"
+    category: "gaming",
+    image: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=800&q=80",
+    deadline: Date.now() + (28 * 24 * 60 * 60 * 1000),
+    vote_amount: 0,
+    withdrawn_amount: 0,
+    refunded_amount: 0,
+    is_ended: false
   },
-  {id: '39',
-  title: "openlaw dao",
-  description: "community-driven legal contract templates verified and shared on-chain",
-  creator: "0x6565...6666",
-  raised: 15200,
-  goal: 40000,
-  backers: 102,
-  daysLeft: 27,
-  category: "governance,law,tech",
-  image: "https://plus.unsplash.com/premium_photo-1698084059560-9a53de7b816b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2011"
-  },
-  {
-    id: '20',
-    title: "wildlife protection drone network",
-    description: "decentralized asset tracking for anti-poaching drone fleets",
-    creator: "0x2727...2828",
-    raised: 32900,
-    goal: 76000,
-    backers: 144,
-    daysLeft: 26,
-    category: "environment,tech",
-    image: "https://images.unsplash.com/photo-1507905404466-8f16d7fc96fa?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2069"
-  },
-  {
-    id: '21',
-    title: "multiplayer blockchain escape room",
-    description: "puzzle rooms where clues and rewards live on-chain",
-    creator: "0x2929...3030",
-    raised: 46000,
-    goal: 97000,
-    backers: 254,
-    daysLeft: 32,
-    category: "gaming,tech",
-    image: "https://plus.unsplash.com/premium_photo-1682464651356-3c6780eff00c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dWx0aXBsYXllciUyMGJsb2NrY2hhaW4lMjBlc2NhcGUlMjByb29tfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '22',
-    title: "sustainable modular housing blocks",
-    description: "crowdfunding eco-friendly, stackable home units with blockchain credentials",
-    creator: "0x3131...3232",
-    raised: 56900,
-    goal: 180000,
-    backers: 229,
-    daysLeft: 44,
-    category: "environment,community,tech",
-    image: "https://plus.unsplash.com/premium_photo-1716603741742-db515ca0a8e6?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8c3VzdGFpbmFibGUlMjBtb2R1bGFyJTIwaG91c2luZyUyMGJsb2Nrc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '23',
-    title: "public art mural NFT project",
-    description: "bringing artists and communities together through digital-physical murals",
-    creator: "0x3333...3434",
-    raised: 12000,
-    goal: 25000,
-    backers: 73,
-    daysLeft: 14,
-    category: "art,community",
-    image: "https://plus.unsplash.com/premium_photo-1693181640721-33d8e1e0ca92?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cHVibGljJTIwYXJ0JTIwbXVyYWwlMjBORlQlMjBwcm9qZWN0fGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '24',
-    title: "crowdsourced blockchain recipe book",
-    description: "global cookbook with recipes minted as NFTs",
-    creator: "0x3535...3636",
-    raised: 7200,
-    goal: 20000,
-    backers: 58,
-    daysLeft: 30,
-    category: "community,food,tech",
-    image: "https://plus.unsplash.com/premium_photo-1681401569921-e3e99499bfe9?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmVjaXBlJTIwYm9va3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '25',
-    title: "on-chain peer-to-peer lending platform",
-    description: "transparent lending with community-driven interest rates",
-    creator: "0x3737...3838",
-    raised: 31000,
-    goal: 100000,
-    backers: 162,
-    daysLeft: 21,
-    category: "finance,community,tech",
-    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80"
-  },
-  {
-    id: '26',
-    title: "streetwear fashion nft drops",
-    description: "limited digital and physical merch from up-and-coming brands",
-    creator: "0x3939...4040",
-    raised: 29000,
-    goal: 60000,
-    backers: 114,
-    daysLeft: 36,
-    category: "fashion,art,tech",
-    image: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800&q=80"
-  },
-  {
-    id: '27',
-    title: "all-ability adaptive e-sports league",
-    description: "online and in-person gaming league for participants of all abilities",
-    creator: "0x4141...4242",
-    raised: 22300,
-    goal: 75000,
-    backers: 103,
-    daysLeft: 21,
-    category: "gaming,community,health",
-    image: "https://images.unsplash.com/photo-1633545495735-25df17fb9f31?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGUtc3BvcnRzJTIwbGVhZ3VlfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '28',
-    title: "AI-powered personalized tutoring dao",
-    description: "decentralized platform for AI-assisted learning paths",
-    creator: "0x4343...4444",
-    raised: 40500,
-    goal: 93000,
-    backers: 244,
-    daysLeft: 16,
-    category: "education,tech",
-    image: "https://images.unsplash.com/photo-1758687126445-98edd4b15ba6?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8QUktcG93ZXJlZCUyMHBlcnNvbmFsaXplZCUyMHR1dG9yaW5nfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '29',
-    title: "rainforest carbon offset marketplace",
-    description: "trade NFT credits for verified rainforest conservation projects",
-    creator: "0x4545...4646",
-    raised: 63700,
-    goal: 153000,
-    backers: 311,
-    daysLeft: 54,
-    category: "environment,tech,finance",
-    image: "https://plus.unsplash.com/premium_photo-1742395281482-7e970c1f6057?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGNhcmJvbiUyMG9mZnNldHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '30',
-    title: "decentralized mental health journaling app",
-    description: "confidential, supportive blockchain journaling for mental wellness",
-    creator: "0x4747...4848",
-    raised: 17000,
-    goal: 42000,
-    backers: 100,
-    daysLeft: 13,
-    category: "health,tech",
-    image: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?w=800&q=80"
-  },
-  {
-    id: '31',
-    title: "blockchain voter turnout tracker",
-    description: "real-time dashboard mapping civic engagement and elections",
-    creator: "0x4949...5050",
-    raised: 10600,
-    goal: 28000,
-    backers: 54,
-    daysLeft: 22,
-    category: "community,tech,governance",
-    image: "https://plus.unsplash.com/premium_photo-1730446005007-5efc87137852?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dm90ZXIlMjB0dXJub3V0JTIwdHJhY2tlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '32',
-    title: "augmented reality eco-tourism app",
-    description: "explore the planet responsibly with web3-powered AR guides",
-    creator: "0x5151...5252",
-    raised: 21000,
-    goal: 41000,
-    backers: 102,
-    daysLeft: 31,
-    category: "environment,technology,travel",
-    image: "https://images.unsplash.com/photo-1543204511-75243848e4d0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8YXVnbWVudGVkJTIwcmVhbGl0eSUyMGVjby10b3VyaXNtfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '33',
-    title: "urban rooftop farm collectives",
-    description: "tokenized shares for backing local food on city rooftops",
-    creator: "0x5353...5454",
-    raised: 16800,
-    goal: 38000,
-    backers: 86,
-    daysLeft: 17,
-    category: "community,environment,food",
-    image: "https://plus.unsplash.com/premium_photo-1663091058998-074d80a7083b?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cm9vZnRvcCUyMGZhcm0lMjBjb2xsZWN0aXZlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '34',
-    title: "remote village solar project",
-    description: "crowdfunding solar infrastructure for energy-deprived regions",
-    creator: "0x5555...5656",
-    raised: 20900,
-    goal: 50000,
-    backers: 91,
-    daysLeft: 24,
-    category: "environment,community,tech",
-    image: "https://images.unsplash.com/photo-1722114463122-5554e86e3ef2?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmVtb3RlJTIwdmlsbGFnZSUyMHNvbGFyJTIwcHJvamVjdHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '35',
-    title: "open-access blockchain research journal",
-    description: "free peer-reviewed journal advancing DLT research",
-    creator: "0x5757...5858",
-    raised: 17900,
-    goal: 36000,
-    backers: 73,
-    daysLeft: 21,
-    category: "science,education,tech",
-    image: "https://images.unsplash.com/photo-1518483239595-6f1f9e80b7c7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGJsb2NrY2hhaW4lMjByZXNlYXJjaCUyMGpvdXJuYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=900"
-  },
-  {
-    id: '36',
-    title: "decentralized smart home automation kit",
-    description: "privacy-focused plug-and-play automation for your home",
-    creator: "0x5959...6060",
-    raised: 24000,
-    goal: 72000,
-    backers: 149,
-    daysLeft: 26,
-    category: "tech,hardware,home",
-    image: "https://plus.unsplash.com/premium_photo-1688686804638-fadb460edc4a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c21hcnQlMjBob21lfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
-  }
-];
+]

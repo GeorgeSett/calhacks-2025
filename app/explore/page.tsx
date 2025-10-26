@@ -10,6 +10,7 @@ import { Campaign } from "@/types/campaign";
 import { getAllCampaigns } from "@/lib/sui/rpc";
 import { useSuiClient } from "@mysten/dapp-kit";
 import { Filter } from "lucide-react";
+import { mockCampaigns } from "@/lib/mock-data";
 
 type SortOption = "newest" | "most-funded" | "ending-soon";
 
@@ -23,7 +24,7 @@ export default function ExplorePage() {
 
   useEffect(() => {
     getAllCampaigns(client).then((res) => setAllCampaigns(res));
-  }, []);
+  }, [client]);
 
   const filteredAndSortedCampaigns = useMemo(() => {
     if (allCampaigns === null) {
@@ -39,9 +40,12 @@ export default function ExplorePage() {
       return matchesFilter && matchesSearch;
     });
 
+    campaigns.push(...mockCampaigns);
+
     // Separate active and ended campaigns
     const activeCampaigns = campaigns.filter(campaign => !campaign.is_ended);
     const endedCampaigns = campaigns.filter(campaign => campaign.is_ended);
+
 
     // Sort active campaigns
     let sortedActiveCampaigns;
