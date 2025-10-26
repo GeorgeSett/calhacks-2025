@@ -7,28 +7,56 @@ import { Input } from "@/components/ui/Input";
 import Header from "@/components/layout/Header";
 import { Campaign } from "@/types/campaign";
 import { getAllCampaigns } from "@/lib/sui/rpc";
+import { ArrowUpDown, Filter } from "lucide-react";
+
+type SortOption = "newest" | "most-funded" | "ending-soon";
 
 export default function ExplorePage() {
   const [filter, setFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [allCampaigns, setAllCampaigns] = useState<Campaign[] | null>(null);
+  const [sortBy, setSortBy] = useState<SortOption>("newest");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     getAllCampaigns().then((res) => setAllCampaigns(res));
   }, []);
 
-  const filteredCampaigns = useMemo(() => {
+  const filteredAndSortedCampaigns = useMemo(() => {
     if (allCampaigns === null) {
       return [];
     }
-    return allCampaigns.filter((campaign) => {
+    
+    // First filter
+    let campaigns = allCampaigns.filter((campaign) => {
       const matchesFilter = filter === "all" || campaign.category === filter;
       const matchesSearch =
         campaign.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         campaign.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesFilter && matchesSearch;
     });
-  }, [allCampaigns, filter, searchQuery]);
+
+    // Then sort
+    switch (sortBy) {
+      case "newest":
+        return campaigns.sort((a, b) => b.id.localeCompare(a.id));
+      
+      case "most-funded":
+        return campaigns.sort((a, b) => b.raised - a.raised);
+      
+      case "ending-soon":
+        return campaigns.sort((a, b) => a.daysLeft - b.daysLeft);
+      
+      default:
+        return campaigns;
+    }
+  }, [allCampaigns, filter, searchQuery, sortBy]);
+
+  const sortOptions = [
+    { value: "newest" as SortOption, label: "newest" },
+    { value: "most-funded" as SortOption, label: "most funded" },
+    { value: "ending-soon" as SortOption, label: "ending soon" },
+  ];
 
   return (
     <div className="min-h-screen pb-24">
@@ -45,12 +73,54 @@ export default function ExplorePage() {
               selectedCategory={filter}
               onSelectCategory={setFilter}
             />
-            <Input
-              value={searchQuery}
-              onChange={setSearchQuery}
-              type="text"
-              placeholder="search for a campaign..."
-            />
+            <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+              <Input
+                value={searchQuery}
+                onChange={setSearchQuery}
+                type="text"
+                placeholder="search for a campaign..."
+              />
+              
+              {/* Sort Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="px-3! py-3! btn btn-primary"
+                >
+                  <Filter className="w-4 h-4 text-black" />
+                </button>
+
+                {isDropdownOpen && (
+                  <>
+                    {/* Backdrop */}
+                    <div 
+                      className="fixed inset-0 z-10" 
+                      onClick={() => setIsDropdownOpen(false)}
+                    />
+                    
+                    {/* Dropdown Menu */}
+                    <div className="absolute right-0 mt-2 w-48 bg-surface border border-border rounded-lg shadow-lg overflow-hidden z-20">
+                      {sortOptions.map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => {
+                            setSortBy(option.value);
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-3 text-sm transition-colors ${
+                            sortBy === option.value
+                              ? "bg-accent/10 text-accent border-l-2 border-accent"
+                              : "hover:bg-bg"
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -64,13 +134,13 @@ export default function ExplorePage() {
                 <CampaignCardSkeleton key={i} />
               ))}
             </div>
-          ) : filteredCampaigns.length === 0 ? (
+          ) : filteredAndSortedCampaigns.length === 0 ? (
             <div className="text-center py-24">
               <p className="text-text-dim text-lg">no campaigns found</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredCampaigns.map((campaign) => (
+              {filteredAndSortedCampaigns.map((campaign) => (
                 <CampaignCard key={campaign.id} campaign={campaign} />
               ))}
             </div>

@@ -57,7 +57,7 @@ export default function Home() {
             </div>
             <div className="text-center">
               <AnimatedCounter
-                end={1337}
+                end={500}
                 className="text-stat-lg gradient-text-green mb-1"
               />
               <div className="text-sm text-text-dim">total backers</div>
