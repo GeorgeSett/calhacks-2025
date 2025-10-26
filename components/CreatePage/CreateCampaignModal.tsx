@@ -84,7 +84,7 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
     setError(null);
 
     try {
-      /*const uploadUrl = 'https://publisher.walrus-testnet.walrus.space/v1/blobs?epochs=10';
+      const uploadUrl = 'https://publisher.walrus-testnet.walrus.space/v1/blobs?epochs=10';
       const uploadResponse = await fetch(uploadUrl, {
         method: "PUT",
         headers: {
@@ -104,9 +104,8 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
       if (typeof objectId !== "string") {
         toast.error("Invalid response from image uploader.");
         return;
-      }*/
-      //const imageUrl = `https://aggregator.walrus-testnet.walrus.space/v1/blobs/by-object-id/${objectId}`;
-      const imageUrl = 'https://aggregator.walrus-testnet.walrus.space/v1/…a210d95468fdaf3d0b3c843f4c309eb5c3678361382cfd9fc';
+      }
+      const imageUrl = `https://aggregator.walrus-testnet.walrus.space/v1/blobs/by-object-id/${objectId}`;
 
       // Call the on-chain function
       await createCampaign({

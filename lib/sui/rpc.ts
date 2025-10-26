@@ -1,7 +1,6 @@
 import { PACKAGE_ID, RPC_URL } from "@/lib/sui/constants";
 import { Campaign } from "@/types/campaign";
 import { SuiClient } from "@mysten/sui/client";
-import { act } from "react";
 
 type RpcResponse<T> = {
   jsonrpc: string;
@@ -134,10 +133,6 @@ export async function getAllCampaigns(client: SuiClient): Promise<Campaign[] | n
     options: { showContent: true }, // This is crucial to get the `fields`
   });
 
-  const now = Date.now();
-
-  console.log(campaignObjects)
-
   const activeCampaigns = campaignObjects
     .filter(obj => obj.data) // Filter out any objects that might have been deleted
     .map(obj => {
@@ -145,22 +140,31 @@ export async function getAllCampaigns(client: SuiClient): Promise<Campaign[] | n
       // Ensure the deadline is in the correct format (number)
       const deadline = Number(fields.deadline);
       return { ...fields, deadline };
-    });
+    }).map(raw => ({
+      id: raw.id.id,
+      title: raw.title,
+      description: raw.description,
+      creator: raw.creator,
+      raised: parseInt(raw.raised) / 1000000000,
+      goal: parseInt(raw.goal) / 1000000000,
+      backers: raw.backers.reduce((acc, cur) => acc.add(cur.fields.donator), new Set<string>()).size,
+      daysLeft: Math.floor((parseInt(raw.deadline) - Date.now()) / (24 * 60 * 60 * 1000)),
+      category: raw.tag,
+      image: raw.image_url
+    }));
 
-  console.log(activeCampaigns);
+  const result = [];
+  const seen = new Set<string>();
 
-  return activeCampaigns.map(raw => ({
-    id: raw.id.id,
-    title: raw.title,
-    description: raw.description,
-    creator: raw.creator,
-    raised: parseInt(raw.raised) / 1000000000,
-    goal: parseInt(raw.goal) / 1000000000,
-    backers: raw.backers.reduce((acc, cur) => acc.add(cur.fields.donator), new Set<string>()).size,
-    daysLeft: Math.floor((parseInt(raw.deadline) - Date.now()) / (24 * 60 * 60 * 1000)),
-    category: raw.tag,
-    image: raw.image_url
-  }));
+  for (const campaign of activeCampaigns) {
+    if (seen.has(campaign.id)) {
+      continue;
+    }
+    seen.add(campaign.id);
+    result.push(campaign);
+  }
+
+  return result;
 }
 
 export async function getCampaign(campaignId: string): Promise<CampaignDetails | null> {

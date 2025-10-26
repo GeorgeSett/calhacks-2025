@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "aggregator.walrus-testnet.walrus.space",
         port: "",
-        pathname: "/v1/blobs/**"
+        pathname: "/**"
       }
     ]
   }

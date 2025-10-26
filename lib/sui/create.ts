@@ -4,7 +4,42 @@ import { SuiClient } from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
 import toast from "react-hot-toast";
 import { PACKAGE_ID } from "@/lib/sui/constants";
-import { bcs } from "@mysten/sui/bcs";
+
+function ulebEncode(num: number | bigint): number[] {
+  let bigNum = BigInt(num);
+  const arr: number[] = [];
+
+  if (bigNum === 0n) {
+    return [0];
+  }
+
+  let i = 0;
+  while (bigNum > 0n) {
+    const chunk = bigNum % 128n;
+
+    bigNum = bigNum / 128n;
+
+    arr[i] = Number(chunk);
+
+    if (bigNum > 0n) {
+      arr[i] |= 0x80;
+    }
+
+    i += 1;
+  }
+
+  return arr;
+}
+
+function serialize(value: string) {
+  const bytes = new TextEncoder().encode(value);
+  const size = ulebEncode(bytes.length);
+  const result = new Uint8Array(size.length + bytes.length);
+  result.set(size, 0);
+  result.set(bytes, size.length);
+
+  return result;
+}
 
 export function createCampaign({
   title,
@@ -33,16 +68,18 @@ export function createCampaign({
 
       // convert goal from SUI to MIST
       const goalMist = BigInt(Math.floor(goalSui * 1000000000));
-      console.log(goalMist, BigInt(durationMs));
 
       // Create the moveCall for the `create` function
       tx.moveCall({
         target: `${PACKAGE_ID}::crowdfund::create`,
         arguments: [
-          tx.pure.string('t'),
-
-          tx.pure.u64(0),
-          tx.pure.u64(0),
+          //tx.pure.string('t'),
+          tx.pure(serialize(title)),
+          tx.pure(serialize(description)),
+          tx.pure(serialize(category)),
+          tx.pure(serialize(imageUrl)),
+          tx.pure.u64(goalMist),
+          tx.pure.u64(BigInt(durationMs)),
           tx.object('0x6'),
         ],
       });
