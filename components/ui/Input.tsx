@@ -7,6 +7,7 @@ interface InputProps {
   required?: boolean;
   min?: string;
   max?: string;
+  maxLength?: number;
 }
 
 export function Input({
@@ -17,7 +18,8 @@ export function Input({
   className = "",
   required = false,
   min,
-  max
+  max,
+  maxLength
 }: InputProps) {
   return (
     <input
@@ -28,6 +30,7 @@ export function Input({
       required={required}
       min={min}
       max={max}
+      maxLength={maxLength}
       className={`px-4 py-3 bg-bg border border-border rounded-lg focus:outline-none focus:border-accent transition-colors ${className}`}
     />
   );

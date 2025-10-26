@@ -5,10 +5,7 @@ import { X, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/Input";
 import { TextArea } from "../ui/TextArea";
 import { CAMPAIGN_CATEGORIES } from "@/types/campaign";
-import {
-  useSignAndExecuteTransaction,
-  useSuiClient
-} from "@mysten/dapp-kit";
+import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { createCampaign } from "@/lib/sui/create";
 import toast from "react-hot-toast";
 
@@ -17,7 +14,10 @@ interface CreateCampaignModalProps {
   onClose: () => void;
 }
 
-export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProps) {
+export function CreateCampaignModal({
+  isOpen,
+  onClose
+}: CreateCampaignModalProps) {
   const suiClient = useSuiClient();
   const { mutate: signAndExecute } = useSignAndExecuteTransaction();
 
@@ -65,7 +65,7 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
     }
 
     const goalSui = parseFloat(formData.goal);
-    const durationMs = parseInt(formData.duration) * 24 * 60 * 60 * 1000; // days to ms
+    const durationMs = parseInt(formData.duration) * 24 * 60 * 60 * 1000;
 
     if (isNaN(goalSui) || goalSui <= 0) {
       toast.error("Invalid funding goal. Must be a positive number.");
@@ -84,11 +84,12 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
     setError(null);
 
     try {
-      const uploadUrl = 'https://publisher.walrus-testnet.walrus.space/v1/blobs?epochs=10';
+      const uploadUrl =
+        "https://publisher.walrus-testnet.walrus.space/v1/blobs?epochs=10";
       const uploadResponse = await fetch(uploadUrl, {
         method: "PUT",
         headers: {
-          "Content-Type": 'image/png'
+          "Content-Type": "image/png"
         },
         body: formData.image
       });
@@ -99,7 +100,8 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
         return;
       }
 
-      const resData: { newlyCreated: { blobObject: { id: string } } } = await uploadResponse.json();
+      const resData: { newlyCreated: { blobObject: { id: string } } } =
+        await uploadResponse.json();
       const objectId = resData?.newlyCreated?.blobObject?.id;
       if (typeof objectId !== "string") {
         toast.error("Invalid response from image uploader.");
@@ -121,7 +123,6 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
 
       console.log("Campaign created successfully!");
       onClose(); // Close modal on success
-
     } catch (err) {
       console.error("Failed to create campaign:", err);
       setError("An unknown error occurred. Please try again.");
@@ -172,7 +173,6 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* ... (form fields are unchanged) ... */}
           {/* Campaign Title */}
           <div>
             <label className="block text-sm font-medium mb-2">
@@ -183,8 +183,12 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
               onChange={(value) => setFormData({ ...formData, title: value })}
               placeholder="enter a catchy title for your campaign"
               className="w-full"
+              maxLength={100}
               required
             />
+            <p className="text-xs text-text-dim mt-1">
+              {formData.title.length}/100 characters
+            </p>
           </div>
 
           {/* Description */}
@@ -200,8 +204,12 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
               placeholder="describe your project and what you plan to build"
               rows={5}
               className="w-full"
+              maxLength={1000}
               required
             />
+            <p className="text-xs text-text-dim mt-1">
+              {formData.description.length}/1000 characters
+            </p>
           </div>
 
           {/* Category */}
@@ -238,17 +246,17 @@ export function CreateCampaignModal({ isOpen, onClose }: CreateCampaignModalProp
               funding goal (SUI)
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim">
-                SUI
-              </span>
               <Input
                 type="number"
                 value={formData.goal}
                 onChange={(value) => setFormData({ ...formData, goal: value })}
-                placeholder="0"
-                className="w-full pl-12"
+                placeholder="0.00"
+                className="w-full pr-12"
                 required
               />
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-text-dim">
+                SUI
+              </span>
             </div>
           </div>
 

@@ -5,6 +5,7 @@ interface TextAreaProps {
   className?: string;
   required?: boolean;
   rows?: number;
+  maxLength?: number;
 }
 
 export function TextArea({
@@ -13,7 +14,8 @@ export function TextArea({
   placeholder,
   className = "",
   required = false,
-  rows = 5
+  rows = 5,
+  maxLength
 }: TextAreaProps) {
   return (
     <textarea
@@ -22,6 +24,7 @@ export function TextArea({
       placeholder={placeholder}
       required={required}
       rows={rows}
+      maxLength={maxLength}
       className={`px-4 py-3 bg-bg border border-border rounded-lg focus:outline-none focus:border-accent transition-colors resize-none ${className}`}
     />
   );

@@ -9,7 +9,7 @@ import Header from "@/components/layout/Header";
 import { Campaign } from "@/types/campaign";
 import { getAllCampaigns } from "@/lib/sui/rpc";
 import { useSuiClient } from "@mysten/dapp-kit";
-import { ArrowUpDown, Filter } from "lucide-react";
+import { Filter } from "lucide-react";
 
 type SortOption = "newest" | "most-funded" | "ending-soon";
 
@@ -22,7 +22,7 @@ export default function ExplorePage() {
   const client = useSuiClient();
 
   useEffect(() => {
-    getAllCampaigns(client).then(res => setAllCampaigns(res));
+    getAllCampaigns(client).then((res) => setAllCampaigns(res));
   }, []);
 
   const filteredAndSortedCampaigns = useMemo(() => {
@@ -39,26 +39,40 @@ export default function ExplorePage() {
       return matchesFilter && matchesSearch;
     });
 
-    // Then sort
+    // Separate active and ended campaigns
+    const activeCampaigns = campaigns.filter(campaign => campaign.daysLeft > 0);
+    const endedCampaigns = campaigns.filter(campaign => campaign.daysLeft <= 0);
+
+    // Sort active campaigns
+    let sortedActiveCampaigns;
     switch (sortBy) {
       case "newest":
-        return campaigns.sort((a, b) => b.id.localeCompare(a.id));
+        sortedActiveCampaigns = activeCampaigns.sort((a, b) => b.id.localeCompare(a.id));
+        break;
 
       case "most-funded":
-        return campaigns.sort((a, b) => b.raised - a.raised);
+        sortedActiveCampaigns = activeCampaigns.sort((a, b) => b.raised - a.raised);
+        break;
 
       case "ending-soon":
-        return campaigns.sort((a, b) => a.daysLeft - b.daysLeft);
+        sortedActiveCampaigns = activeCampaigns.sort((a, b) => a.daysLeft - b.daysLeft);
+        break;
 
       default:
-        return campaigns;
+        sortedActiveCampaigns = activeCampaigns;
     }
+
+    // Sort ended campaigns by newest
+    const sortedEndedCampaigns = endedCampaigns.sort((a, b) => b.id.localeCompare(a.id));
+
+    // Return active campaigns first, then ended campaigns
+    return [...sortedActiveCampaigns, ...sortedEndedCampaigns];
   }, [allCampaigns, filter, searchQuery, sortBy]);
 
   const sortOptions = [
     { value: "newest" as SortOption, label: "newest" },
     { value: "most-funded" as SortOption, label: "most funded" },
-    { value: "ending-soon" as SortOption, label: "ending soon" },
+    { value: "ending-soon" as SortOption, label: "ending soon" }
   ];
 
   return (

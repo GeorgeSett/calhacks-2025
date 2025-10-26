@@ -17,7 +17,9 @@ export default function CampaignPage() {
 
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState("");
-  const [campaign, setCampaign] = useState<CampaignDetails | null | undefined>();
+  const [campaign, setCampaign] = useState<
+    CampaignDetails | null | undefined
+  >();
   const [isDonating, setIsDonating] = useState<boolean>(false);
 
   const reloadCampaign = useCallback(() => {
@@ -55,8 +57,11 @@ export default function CampaignPage() {
 
   const percentage = Math.min((campaign.raised / campaign.goal) * 100, 100);
   const quickAmounts = [1, 2.5, 5, 10, 25];
+  const isEnded = campaign.daysLeft <= 0;
 
   const handleBack = async () => {
+    if (isEnded) return; // Prevent donations on ended campaigns
+
     const amount =
       selectedAmount || (customAmount ? parseFloat(customAmount) : 0);
     if (amount <= 0) {
@@ -70,7 +75,7 @@ export default function CampaignPage() {
         campaignId,
         suiAmount: amount,
         suiClient,
-        signAndExecute,
+        signAndExecute
       });
       reloadCampaign();
     } catch (error) {
@@ -115,7 +120,9 @@ export default function CampaignPage() {
 
             {/* Title and creator */}
             <div className="mb-8">
-              <h1 className="text-title mb-4">{campaign.title}</h1>
+              <h1 className="text-title mb-4 wrap-break-word">
+                {campaign.title}
+              </h1>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-full gradient-purple" />
                 <div>
@@ -140,7 +147,7 @@ export default function CampaignPage() {
                 </div>
                 <div className="w-full h-3 bg-bg rounded-full overflow-hidden mb-4">
                   <div
-                    className="h-full gradient-blue transition-all"
+                    className={`h-full ${isEnded ? "bg-gray-500" : "gradient-blue"} transition-all`}
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
@@ -161,163 +168,16 @@ export default function CampaignPage() {
               </div>
 
               {/* Backing section for mobile */}
-              <div className="border-t border-border pt-6">
-                <h3 className="font-semibold mb-4">Back this project</h3>
-
-                {/* Quick amounts */}
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                  {quickAmounts.map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => {
-                        setSelectedAmount(amount);
-                        setCustomAmount("");
-                      }}
-                      className={`p-3 rounded-lg text-sm font-medium transition-all ${
-                        selectedAmount === amount
-                          ? "bg-accent text-white"
-                          : "bg-bg hover:bg-surface border border-border"
-                      }`}
-                    >
-                      {amount} SUI
-                    </button>
-                  ))}
-                </div>
-
-                {/* Custom amount */}
-                <div className="mb-4">
-                  <label className="block text-sm text-text-dim mb-2">
-                    Or enter custom amount
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      value={customAmount}
-                      onChange={(e) => {
-                        setCustomAmount(e.target.value);
-                        setSelectedAmount(null);
-                      }}
-                      placeholder="0.00"
-                      className="w-full pl-4 pr-10 py-3 bg-bg border border-border rounded-lg focus:outline-none focus:border-accent"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-text-dim">
-                      SUI
-                    </span>
+              {isEnded ? (
+                <div className="border-t border-border pt-6">
+                  <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-center">
+                    <p className="text-body ">
+                      This campaign has ended and is no longer accepting
+                      donations.
+                    </p>
                   </div>
                 </div>
-
-                <button
-                  onClick={handleBack}
-                  disabled={
-                    !selectedAmount &&
-                    (!customAmount || parseFloat(customAmount) <= 0)
-                  }
-                  className={`btn w-full ${
-                    selectedAmount ||
-                    (customAmount && parseFloat(customAmount) > 0)
-                      ? "btn-primary"
-                      : "bg-surface text-text-dim cursor-not-allowed"
-                  }`}
-                >
-                  Back this project
-                </button>
-
-                <p className="text-xs text-text-dim text-center mt-4">
-                  Funds are held in smart contract until goal is reached
-                </p>
-              </div>
-            </div>
-
-            {/* Description */}
-            <div className="mb-12">
-              <h2 className="text-2xl font-semibold mb-4">
-                About this project
-              </h2>
-              {campaign.description
-                .split("\n")
-                .filter((s) => s.length > 0)
-                .map((s, i) => (
-                  <p key={i} className="text-body leading-relaxed mb-4">
-                    {s}
-                  </p>
-                ))}
-              <p className="text-body leading-relaxed mb-4">
-                This is a revolutionary project building on the Sui blockchain.
-                We are committed to transparency and will provide regular
-                updates to all our backers. Every contribution helps us get
-                closer to our goal.
-              </p>
-              <p className="text-body leading-relaxed">
-                All funds are held in a smart contract and will only be released
-                when we reach our funding goal. If we do not reach the goal, all
-                backers will be automatically refunded.
-              </p>
-            </div>
-
-            {/* Recent backers */}
-            <div>
-              <h2 className="text-2xl font-semibold mb-6">Recent backers</h2>
-              <div className="space-y-3">
-                {recentBackers.map((backer, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between p-4 bg-surface rounded-lg border border-border"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full gradient-purple" />
-                      <div>
-                        <p className="font-semibold">{truncateAddress(backer.donator)}</p>
-                        <p className="text-sm text-text-dim">
-                          {getRelativeTime(backer.timestamp)}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="font-semibold gradient-text-blue">
-                      {backer.amount} SUI
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Sidebar - Right side */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-24">
-              {/* Funding stats - Desktop */}
-              <div className="hidden lg:block p-6 bg-surface rounded-xl border border-border mb-6">
-                <div className="mb-6">
-                  <div className="flex justify-between items-baseline mb-2">
-                    <span className="text-stat-md gradient-text-blue">
-                      {campaign.raised.toLocaleString()} SUI
-                    </span>
-                  </div>
-                  <p className="text-text-dim mb-4">
-                    of {campaign.goal.toLocaleString()} SUI goal
-                  </p>
-                  <div className="w-full h-3 bg-bg rounded-full overflow-hidden mb-6">
-                    <div
-                      className="h-full gradient-blue transition-all"
-                      style={{ width: `${percentage}%` }}
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 text-center mb-6">
-                    <div>
-                      <div className="text-2xl font-bold mb-1">
-                        {campaign.backers}
-                      </div>
-                      <div className="text-sm text-text-dim">backers</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold mb-1">
-                        {campaign.daysLeft}
-                      </div>
-                      <div className="text-sm text-text-dim">days left</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Backing section */}
+              ) : (
                 <div className="border-t border-border pt-6">
                   <h3 className="font-semibold mb-4">Back this project</h3>
 
@@ -367,12 +227,11 @@ export default function CampaignPage() {
                     onClick={handleBack}
                     disabled={
                       !selectedAmount &&
-                      (!customAmount || parseFloat(customAmount) <= 0) &&
-                      !isDonating
+                      (!customAmount || parseFloat(customAmount) <= 0)
                     }
                     className={`btn w-full ${
                       selectedAmount ||
-                      (customAmount && parseFloat(customAmount) > 0) || isDonating
+                      (customAmount && parseFloat(customAmount) > 0)
                         ? "btn-primary"
                         : "bg-surface text-text-dim cursor-not-allowed"
                     }`}
@@ -384,11 +243,168 @@ export default function CampaignPage() {
                     Funds are held in smart contract until goal is reached
                   </p>
                 </div>
+              )}
+            </div>
+
+            {/* Description */}
+            <div className="mb-12">
+              <h2 className="text-2xl font-semibold mb-4">
+                about this project
+              </h2>
+              <p className="text-text-dim leading-relaxed wrap-break-word whitespace-pre-wrap">
+                {campaign.description}
+              </p>
+            </div>
+
+            {/* Recent backers */}
+            <div>
+              <h2 className="text-2xl font-semibold mb-6">recent backers</h2>
+              <div className="space-y-3">
+                {recentBackers.map((backer, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between p-4 bg-surface rounded-lg border border-border"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full gradient-purple" />
+                      <div>
+                        <p className="font-semibold">
+                          {truncateAddress(backer.donator)}
+                        </p>
+                        <p className="text-sm text-text-dim">
+                          {getRelativeTime(backer.timestamp)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="font-semibold gradient-text-blue">
+                      {backer.amount} SUI
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar - Right side */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-24">
+              {/* Funding stats - Desktop */}
+              <div className="hidden lg:block p-6 bg-surface rounded-xl border border-border mb-6">
+                <div className="mb-6">
+                  <div className="flex justify-between items-baseline mb-2">
+                    <span className="text-stat-md gradient-text-blue">
+                      {campaign.raised.toLocaleString()} SUI
+                    </span>
+                  </div>
+                  <p className="text-text-dim mb-4">
+                    of {campaign.goal.toLocaleString()} SUI goal
+                  </p>
+                  <div className="w-full h-3 bg-bg rounded-full overflow-hidden mb-6">
+                    <div
+                      className={`h-full ${isEnded ? "bg-gray-500" : "gradient-blue"} transition-all`}
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 text-center mb-6">
+                    <div>
+                      <div className="text-2xl font-bold mb-1">
+                        {campaign.backers}
+                      </div>
+                      <div className="text-sm text-text-dim">backers</div>
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold mb-1">
+                        {campaign.daysLeft}
+                      </div>
+                      <div className="text-sm text-text-dim">days left</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Backing section */}
+                {isEnded ? (
+                  <div className="border-t border-border pt-6">
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-center">
+                      <p className="text-body">
+                        This campaign has ended and is no longer accepting
+                        donations.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="border-t border-border pt-6">
+                    <h3 className="font-semibold mb-4">Back this project</h3>
+
+                    {/* Quick amounts */}
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                      {quickAmounts.map((amount) => (
+                        <button
+                          key={amount}
+                          onClick={() => {
+                            setSelectedAmount(amount);
+                            setCustomAmount("");
+                          }}
+                          className={`p-3 rounded-lg text-sm font-medium transition-all ${
+                            selectedAmount === amount
+                              ? "bg-accent text-white"
+                              : "bg-bg hover:bg-surface border border-border"
+                          }`}
+                        >
+                          {amount} SUI
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Custom amount */}
+                    <div className="mb-4">
+                      <label className="block text-sm text-text-dim mb-2">
+                        Or enter custom amount
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          value={customAmount}
+                          onChange={(e) => {
+                            setCustomAmount(e.target.value);
+                            setSelectedAmount(null);
+                          }}
+                          placeholder="0.00"
+                          className="w-full pl-4 pr-10 py-3 bg-bg border border-border rounded-lg focus:outline-none focus:border-accent"
+                        />
+                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-text-dim">
+                          SUI
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={handleBack}
+                      disabled={
+                        !selectedAmount &&
+                        (!customAmount || parseFloat(customAmount) <= 0) &&
+                        !isDonating
+                      }
+                      className={`btn w-full ${
+                        selectedAmount ||
+                        (customAmount && parseFloat(customAmount) > 0) ||
+                        isDonating
+                          ? "btn-primary"
+                          : "bg-surface text-text-dim cursor-not-allowed"
+                      }`}
+                    >
+                      Back this project
+                    </button>
+
+                    <p className="text-xs text-text-dim text-center mt-4">
+                      Funds are held in smart contract until goal is reached
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Info box */}
               <div className="p-6 bg-surface rounded-xl border border-border">
-                <h3 className="font-semibold mb-4">How it works</h3>
+                <h3 className="font-semibold mb-4">how it works</h3>
                 <ul className="space-y-3 text-sm text-text-dim">
                   <li className="flex gap-2">
                     <span>•</span>
