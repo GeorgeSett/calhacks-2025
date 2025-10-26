@@ -253,9 +253,6 @@ export function CreateCampaignModal({
               funding goal (SUI)
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-dim">
-                SUI
-              </span>
               <Input
                 type="number"
                 value={formData.goal}

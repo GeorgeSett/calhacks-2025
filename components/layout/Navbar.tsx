@@ -22,9 +22,11 @@ export default function Navbar() {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-3xl">⬡</span>
-            <span className="text-2xl font-bold text-accent">name</span>
+          <Link href="/" className="flex items-center ">
+            <img src="/logo.png" alt="" className="h-14 w-14 md:h-20 md:w-20" />
+            <span className="text-lg md:text-2xl font-bold text-text -ml-2">
+              movement
+            </span>
           </Link>
 
           {/* Desktop Nav */}
@@ -44,11 +46,9 @@ export default function Navbar() {
               >
                 create
               </Link>
-             
             </div>
             {/* Notification Bell */}
             <NotificationBell />
-            
 
             {/* Wallet Connection */}
             {currentAccount ? (
